@@ -27,7 +27,7 @@ def add_image_to_db(image_filename, message):
 	c.execute("""CREATE TABLE IF NOT EXISTS images(staticID TEXT, 
 													 staticName TEXT,
 													 url TEXT,
-													 author TEXT
+													 author TEXT,
 													 insertDate DATE, 
 													 insertTime TIMESTAMP)""")
 	static_id = "test1"
