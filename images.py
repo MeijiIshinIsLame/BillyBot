@@ -18,6 +18,10 @@ def save_image(url):
 					f.write(request.content)
 				return filename
 
+def delete_image(filename):
+	full_image_path = os.path.join(photos_path, filename)
+	os.remove(full_image_path)
+
 def get_last_image():
 	files = os.listdir(photos_path)
 	file_names = []

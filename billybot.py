@@ -29,12 +29,15 @@ class MyClient(discord.Client):
 					try:
 						saved_image = images.save_image(message.attachments[0].url)
 						image_id = saved_image.split(".")[0]
-						database.add_image_to_db(saved_image, message)
-						await message.channel.send('Image saved as entry #' + image_id + ". " + helpers.get_random_save_message())
+						try:
+							database.add_image_to_db(saved_image, message)
+							await message.channel.send('Image saved as entry #' + image_id + ". " + helpers.get_random_save_message())
+						except Exception as e:
+							await message.channel.send('Image saved, but adding to database failed. Deleting image...')
+							images.delete_image(saved_image)
+							print(e)
 					except Exception as e:
-						await message.channel.send('Could not save image.')
+						await message.channel.send('Could not save image. Check the logs Zach.')
 						print(e)
-
 client = MyClient()
 client.run(os.environ["BOT_TOKEN"])
-#NjkyNjE3ODkyMzg2MTc3MDI0.XnxL4Q.vx1vzPlTd-YZWWa7ImHMbojKjfE
