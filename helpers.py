@@ -1,4 +1,5 @@
 import random
+import environment_variables
 
 pic_ext = ['.jpg','.png','.jpeg']
 

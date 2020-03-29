@@ -3,6 +3,8 @@ import psycopg2
 from datetime import datetime
 from pytz import timezone
 
+import environment_variables
+
 pic_ext = ['.jpg','.png','.jpeg']
 ssl_cert_path = "client-cert.pem"
 ssl_key_path = "client-key.pem"

@@ -1,6 +1,7 @@
 import requests
 import os
 import random
+import environment_variables
 
 pic_ext = ['.jpg','.png','.jpeg']
 #photos_path = os.path.join(os.getcwd(), "photos")
