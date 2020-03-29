@@ -5,6 +5,7 @@ import os
 import helpers
 import database
 import images
+import environment_variables
 
 class MyClient(discord.Client):
 	hentai_channel_id = int(os.environ["HENTAI_CHANNEL_ID"])
