@@ -29,8 +29,8 @@ class MyClient(discord.Client):
 					try:
 						saved_image = images.save_image(message.attachments[0].url)
 						image_id = saved_image.split(".")[0]
-						#database.add_image_to_db(saved_image, message)
-						await message.channel.send(f'Image saved as entry #{image_id}. {helpers.get_random_save_message()}')
+						database.add_image_to_db(saved_image, message)
+						await message.channel.send('Image saved as entry #' + image_id + ". " + helpers.get_random_save_message())
 					except Exception as e:
 						await message.channel.send('Could not save image.')
 						print(e)

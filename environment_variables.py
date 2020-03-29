@@ -1,6 +1,7 @@
 #main app
 os.environ["HENTAI_CHANNEL_ID"] = "692627802255523840"
 os.environ["BOT_TOKEN"] = "NjkyNjE3ODkyMzg2MTc3MDI0.XnxL4Q.vx1vzPlTd-YZWWa7ImHMbojKjfE"
+os.environ["PHOTOS_PATH"] = "~/images"
 
 #Database
 os.environ["SSL_CERT"] = """-----BEGIN CERTIFICATE-----
