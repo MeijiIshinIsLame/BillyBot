@@ -80,6 +80,6 @@ QmG4kKXDekE3dwHnqw8RIx9FvjnXggZboCHFDVRt1BJNozA=
 os.environ["DB_NAME"] = "billybot-test-images"
 os.environ["DB_USERNAME"] = "thequadehunter"
 os.environ["DB_PASSWORD"] = "Lllke477&"
-os.environ["DB_HOSTNAME"] = "35.185.240.59"
+os.environ["DB_HOSTNAME"] = "172.24.240.3"
 os.environ["DB_PORT"] = "5432"
 os.environ["SSL_MODE"] = "verify-ca"
