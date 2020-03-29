@@ -48,11 +48,17 @@ def create_ssl_certs():
 	with open(ssl_cert_path, 'w+') as f:
 		f.write(os.environ["SSL_CERT"])
 
+	print(os.environ["SSL_CERT"])
+
 	with open(ssl_key_path, 'w+') as f:
 		f.write(os.environ["SSL_KEY"])
 
+	print(os.environ["SSL_KEY"])
+
 	with open(ssl_root_cert_path, 'w+') as f:
 		f.write(os.environ["SSL_ROOT_CERT"])
+
+	print(os.environ["SSL_ROOT_CERT"])
 
 def ssl_certs_exist():
 	return os.path.exists(ssl_cert_path) and os.path.exists(ssl_key_path) and os.path.exists(ssl_root_cert_path)
