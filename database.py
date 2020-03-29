@@ -33,13 +33,13 @@ def add_image_to_db(image_filename, message):
 	url = "test3"
 	author = "test4"
 	today_date = datetime.now(timezone('US/Hawaii')).date().strftime("%m-%d-%Y")
- 	last_updated = datetime.now(timezone('US/Hawaii')).strftime("%m-%d-%Y %I:%M:%S")
+	last_updated = datetime.now(timezone('US/Hawaii')).strftime("%m-%d-%Y %I:%M:%S")
 
- 	params = (static_id, static_name, url, author, today_date, last_updated)
- 	query = ("""INSERT INTO images (staticID, staticName, url, author, insertDate, insertTime)
-				 VALUES (%s, %s, %s , %s, %s, %s)""")
- 	c.execute(query, params)
- 	conn.commit()
+	params = (static_id, static_name, url, author, today_date, last_updated)
+	query = ("""INSERT INTO images (staticID, staticName, url, author, insertDate, insertTime)
+				VALUES (%s, %s, %s , %s, %s, %s)""")
+	c.execute(query, params)
+	conn.commit()
 	conn.close()
 
 def create_ssl_certs():
