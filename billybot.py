@@ -33,7 +33,7 @@ class MyClient(discord.Client):
 							database.add_image_to_db(saved_image, message)
 							await message.channel.send('Image saved as entry #' + image_id + ". " + helpers.get_random_save_message())
 						except Exception as e:
-							await message.channel.send('Image saved, but adding to database failed. Deleting image...')
+							await message.channel.send('Image saved, but adding to database failed. Image deleted.')
 							images.delete_image(saved_image)
 							print(e)
 					except Exception as e:
