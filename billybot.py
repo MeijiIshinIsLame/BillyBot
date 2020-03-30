@@ -31,7 +31,8 @@ class MyClient(discord.Client):
 						image_id = saved_image.split(".")[0]
 						try:
 							database.add_image_to_db(saved_image, message)
-							await message.channel.send('Image saved as entry #' + image_id + ". " + helpers.get_random_save_message())
+							mention = "<@{}>".format(message.author.id)
+							await message.channel.send('Image saved as entry #' + image_id + ". " + helpers.get_random_save_message() + mention)
 						except Exception as e:
 							await message.channel.send('Image saved, but adding to database failed. Image deleted.')
 							images.delete_image(saved_image)
