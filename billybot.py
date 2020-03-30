@@ -28,18 +28,21 @@ async def cat(ctx):
 
 ####################    COMMANDS    ####################
 @bot.command(name='delete', pass_context=True)
-@commands.check(is_hentai_channel)
+#@commands.check(is_hentai_channel)
 async def delete_image(ctx, index: str):
 	print(ctx, index)
 	print("we triedb\n\n\n\n\n\n")
-	try:
-		database.delete_entry(index)
-		await ctx.channel.send('Deleted entry #{}.'.format(index))
-	except Exception as e:
-		print(e)
-		await ctx.channel.send('Image was unable to be deleted. Syncing database...')
-		#sync database
-		await ctx.channel.send('Finished!')
+	if ctx.channel == hentai_channel_id:
+		try:
+			database.delete_entry(index)
+			await ctx.channel.send('Deleted entry #{}.'.format(index))
+		except Exception as e:
+			print(e)
+			await ctx.channel.send('Image was unable to be deleted. Syncing database...')
+			#sync database
+			await ctx.channel.send('Finished!')
+	else:
+		await ctx.channel.send("Come on bro, hentai commands go in the hentai channel...")
 ####################    END COMMANDS    ####################
 
 @bot.event
