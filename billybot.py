@@ -43,6 +43,7 @@ async def delete_image(ctx, index: str):
 
 @bot.event
 async def on_message(message):
+	hentai_channel = bot.get_channel(hentai_channel_id)
 	await bot.process_commands(message)
 
 	if message.author.id == bot.user.id:
