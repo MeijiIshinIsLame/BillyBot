@@ -14,12 +14,12 @@ hentai_channel_id = int(os.environ["HENTAI_CHANNEL_ID"])
 
 def is_hentai_channel(ctx):
 	return ctx.channel == hentai_channel_id
-	
+
 @bot.event
 async def on_ready():
 	print('Logged in as')
-	print(self.user.name)
-	print(self.user.id)
+	print(bot.user.name)
+	print(bot.user.id)
 	print('------')
 
 @bot.command(pass_context=True)
