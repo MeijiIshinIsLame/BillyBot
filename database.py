@@ -33,7 +33,7 @@ def add_image_to_db(image_filename, message):
 	static_id = image_filename.split(".")[0]
 	static_name = image_filename
 	url = message.attachments[0].url
-	author = message.author
+	author = message.author.id
 	today_date = datetime.now(timezone('US/Hawaii')).date().strftime("%m-%d-%Y")
 	last_updated = datetime.now(timezone('US/Hawaii')).strftime("%m-%d-%Y %I:%M:%S")
 
