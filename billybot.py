@@ -24,7 +24,7 @@ class MyClient(discord.Client):
 
 		if message.author.id == self.user.id:
 				return 
-				
+
 		await bot.process_commands(message)
 
 		if message.channel == hentai_channel:
@@ -58,6 +58,7 @@ async def is_hentai_channel(ctx):
 @bot.command(name='delete')
 #@commands.check(is_hentai_channel)
 async def delete_image(ctx, index: str):
+	print(ctx, index)
 	try:
 		database.delete_entry(index)
 		await ctx.channel.send('Deleted entry #{}.'.format(index))
