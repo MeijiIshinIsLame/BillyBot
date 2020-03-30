@@ -23,10 +23,10 @@ class MyClient(discord.Client):
 	async def on_message(self, message):
 		hentai_channel = self.get_channel(hentai_channel_id)
 
+		await bot.process_commands(message)
+
 		if message.author.id == self.user.id:
 				return 
-
-		await bot.process_commands(message)
 
 		if message.channel == hentai_channel:
 			if message.content.startswith('!stop'):
@@ -52,13 +52,13 @@ class MyClient(discord.Client):
 def make_mention_object_by_id(author_id):
 	return "<@{}>".format(message.author.id)
 
-#async def is_hentai_channel(ctx):
-#	return ctx.channel == hentai_channel_id
+async def is_hentai_channel(ctx):
+	return ctx.channel == hentai_channel_id
 
 ####################    COMMANDS    ####################
 @bot.command(name='delete', pass_context=True)
-#@commands.check(is_hentai_channel)
-async def delete_image(ctx, index: str):
+@commands.check(is_hentai_channel)
+async def delete_image(ctx, *, index: str):
 	print(ctx, index)
 	print("we triedb\n\n\n\n\n\n")
 	try:
