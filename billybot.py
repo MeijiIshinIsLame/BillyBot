@@ -19,11 +19,12 @@ class MyClient(discord.Client):
 		print(self.user.id)
 		print('------')
 
-	async def is_hentai_channel(ctx):
+	async def is_hentai_channel(self, ctx):
 		return ctx.channel == hentai_channel_id
+
 	####################    COMMANDS    ####################
 	@bot.command(name='delete', pass_context=True)
-	@commands.check(is_hentai_channel)
+	@commands.check(self.is_hentai_channel)
 	async def delete_image(self, ctx, index: str):
 		try:
 			database.delete_entry(index)
@@ -40,9 +41,11 @@ class MyClient(discord.Client):
 		if message.channel == hentai_channel:
 			if message.author.id == self.user.id:
 				return 
+
 			if message.content.startswith('!stop'):
 				await message.channel.send('脱退させていただきます')
 				await client.logout()
+
 			if message.attachments:
 				if helpers.is_image(message.attachments[0].url):
 					try:
