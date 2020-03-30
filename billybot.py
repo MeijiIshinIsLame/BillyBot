@@ -1,5 +1,3 @@
-import discord
-from discord.ext import commands
 import asyncio
 import os
 
@@ -7,6 +5,9 @@ import helpers
 import database
 import images
 import environment_variables
+
+import discord
+from discord.ext import commands
 
 bot = commands.Bot(command_prefix='!')
 hentai_channel_id = int(os.environ["HENTAI_CHANNEL_ID"])
@@ -59,6 +60,7 @@ async def is_hentai_channel(ctx):
 #@commands.check(is_hentai_channel)
 async def delete_image(ctx, index: str):
 	print(ctx, index)
+	print("we triedb\n\n\n\n\n\n")
 	try:
 		database.delete_entry(index)
 		await ctx.channel.send('Deleted entry #{}.'.format(index))
