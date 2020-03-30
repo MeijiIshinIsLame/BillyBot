@@ -12,18 +12,19 @@ from discord.ext import commands
 bot = commands.Bot(command_prefix='!')
 hentai_channel_id = int(os.environ["HENTAI_CHANNEL_ID"])
 
-async def is_hentai_channel(ctx):
+def is_hentai_channel(ctx):
 	return ctx.channel == hentai_channel_id
-
-async def on_ready(self):
+	
+@bot.event
+async def on_ready():
 	print('Logged in as')
 	print(self.user.name)
 	print(self.user.id)
 	print('------')
 
 @bot.command(pass_context=True)
-async def cat(context):
-	await bot.say('cat')
+async def cat(ctx):
+	await ctx.channel.send('cat')
 
 ####################    COMMANDS    ####################
 @bot.command(name='delete', pass_context=True)
