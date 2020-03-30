@@ -11,6 +11,7 @@ from discord.ext import commands
 
 bot = commands.Bot(command_prefix='!')
 hentai_channel_id = int(os.environ["HENTAI_CHANNEL_ID"])
+hentai_channel = bot.get_channel(hentai_channel_id)
 
 def is_hentai_channel(ctx):
 	return ctx.channel == hentai_channel_id
@@ -32,7 +33,8 @@ async def cat(ctx):
 async def delete_image(ctx, index: str):
 	print(ctx, index)
 	print("we triedb\n\n\n\n\n\n")
-	if ctx.channel == hentai_channel_id:
+	print()
+	if ctx.channel == hentai_channel:
 		try:
 			database.delete_entry(index)
 			await ctx.channel.send('Deleted entry #{}.'.format(index))
@@ -47,8 +49,6 @@ async def delete_image(ctx, index: str):
 
 @bot.event
 async def on_message(message):
-	hentai_channel = bot.get_channel(hentai_channel_id)
-
 	await bot.process_commands(message)
 
 	if message.author.id == bot.user.id:
