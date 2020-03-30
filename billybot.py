@@ -33,7 +33,8 @@ async def cat(ctx):
 async def delete_image(ctx, index: str):
 	print(ctx, index)
 	print("we triedb\n\n\n\n\n\n")
-	print()
+	print(ctx.channel)
+	print(hentai_channel)
 	if ctx.channel == hentai_channel:
 		try:
 			database.delete_entry(index)
