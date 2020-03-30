@@ -30,10 +30,10 @@ def add_image_to_db(image_filename, message):
 													 author TEXT,
 													 insertDate DATE, 
 													 insertTime TIMESTAMP)""")
-	static_id = "test1"
-	static_name = "test2"
-	url = "test3"
-	author = "test4"
+	static_id = image_filename.split(".")[0]
+	static_name = image_filename
+	url = message.attachments[0].url
+	author = message.author
 	today_date = datetime.now(timezone('US/Hawaii')).date().strftime("%m-%d-%Y")
 	last_updated = datetime.now(timezone('US/Hawaii')).strftime("%m-%d-%Y %I:%M:%S")
 
