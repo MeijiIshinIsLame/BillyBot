@@ -31,10 +31,6 @@ async def cat(ctx):
 @bot.command(name='delete', pass_context=True)
 @commands.check(is_hentai_channel)
 async def delete_image(ctx, index: str):
-	print(ctx, index)
-	print("we triedb\n\n\n\n\n\n")
-	print(ctx.channel)
-	print(hentai_channel)
 	try:
 		database.delete_entry(index)
 		await ctx.channel.send('Deleted entry #{}.'.format(index))
