@@ -27,12 +27,12 @@ class MyClient(discord.Client):
 	async def delete_image(self, ctx, index: str):
 		try:
 			database.delete_entry(index)
-			await message.channel.send('Deleted entry #{}.'.format(index))
+			await ctx.channel.send('Deleted entry #{}.'.format(index))
 		except Exception as e:
 			print(e)
-			await message.channel.send('Image was unable to be deleted. Syncing database...')
+			await ctx.channel.send('Image was unable to be deleted. Syncing database...')
 			#sync database
-			await message.channel.send('Finished!')
+			await ctx.channel.send('Finished!')
 	####################    END COMMANDS    ####################
 
 	async def on_message(self, message):
