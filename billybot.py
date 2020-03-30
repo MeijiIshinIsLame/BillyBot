@@ -22,6 +22,7 @@ class MyClient(discord.Client):
 
 	async def on_message(self, message):
 		hentai_channel = self.get_channel(hentai_channel_id)
+		await client.wait_until_ready()
 
 		if message.author.id == self.user.id:
 				return 
