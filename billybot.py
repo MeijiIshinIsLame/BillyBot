@@ -23,6 +23,10 @@ class MyClient(discord.Client):
 		print(self.user.id)
 		print('------')
 
+	@bot.command(pass_context=True)
+	async def cat(context):
+		await bot.say('cat')
+
 	####################    COMMANDS    ####################
 	@bot.command(name='delete', pass_context=True)
 	@commands.check(is_hentai_channel)
