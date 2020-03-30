@@ -55,7 +55,7 @@ async def is_hentai_channel(ctx):
 	return ctx.channel == hentai_channel_id
 
 ####################    COMMANDS    ####################
-@bot.command(name='delete')
+@bot.command(name='delete', pass_context=True)
 #@commands.check(is_hentai_channel)
 async def delete_image(ctx, index: str):
 	print(ctx, index)
