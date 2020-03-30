@@ -20,6 +20,7 @@ class MyClient(discord.Client):
 		print(self.user.id)
 		print('------')
 
+	@bot.event
 	async def on_message(self, message):
 		hentai_channel = self.get_channel(hentai_channel_id)
 
