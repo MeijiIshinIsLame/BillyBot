@@ -22,7 +22,6 @@ class MyClient(discord.Client):
 
 	async def on_message(self, message):
 		hentai_channel = self.get_channel(hentai_channel_id)
-		await client.wait_until_ready()
 
 		if message.author.id == self.user.id:
 				return 
@@ -53,8 +52,8 @@ class MyClient(discord.Client):
 def make_mention_object_by_id(author_id):
 	return "<@{}>".format(message.author.id)
 
-async def is_hentai_channel(ctx):
-	return ctx.channel == hentai_channel_id
+#async def is_hentai_channel(ctx):
+#	return ctx.channel == hentai_channel_id
 
 ####################    COMMANDS    ####################
 @bot.command(name='delete', pass_context=True)
