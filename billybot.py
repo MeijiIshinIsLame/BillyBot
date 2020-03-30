@@ -21,10 +21,13 @@ class MyClient(discord.Client):
 
 	async def on_message(self, message):
 		hentai_channel = self.get_channel(hentai_channel_id)
-		if message.channel == hentai_channel:
-			if message.author.id == self.user.id:
-				return 
 
+		if message.author.id == self.user.id:
+				return 
+				
+		await bot.process_commands(message)
+
+		if message.channel == hentai_channel:
 			if message.content.startswith('!stop'):
 				await message.channel.send('脱退させていただきます')
 				await client.logout()
