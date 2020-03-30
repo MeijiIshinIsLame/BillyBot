@@ -4,13 +4,14 @@ from datetime import datetime
 from pytz import timezone
 
 import environment_variables
+import images
 
 pic_ext = ['.jpg','.png','.jpeg']
 ssl_cert_path = "client-cert.pem"
 ssl_key_path = "client-key.pem"
 ssl_root_cert_path = "server-ca.pem"
 
-def add_image_to_db(image_filename, message):
+def connect_to_db():
 	if not ssl_certs_exist():
 		create_ssl_certs()
 
@@ -23,7 +24,11 @@ def add_image_to_db(image_filename, message):
 							sslmode=str(os.environ["SSL_MODE"]),
 							sslrootcert=ssl_root_cert_path,
 							sslkey=ssl_key_path)
-	c = conn.cursor()
+	return conn, conn.cursor()
+
+def add_image_to_db(image_filename, message):	
+	conn, c = connect_to_db()
+
 	c.execute("""CREATE TABLE IF NOT EXISTS images(staticID TEXT, 
 													 staticName TEXT,
 													 url TEXT,
@@ -43,6 +48,28 @@ def add_image_to_db(image_filename, message):
 	c.execute(query, params)
 	conn.commit()
 	conn.close()
+
+def sync_db():
+	pass
+
+def delete_entry(image_id):
+	conn, c = connect_to_db()
+
+	c.execute("SELECT staticName FROM images WHERE staticID=%s", (image_id,))
+	row = c.fetchone()
+	filename = row[0]
+	images.delete_image(filename)
+
+	c.execute("DELETE FROM images WHERE staticID=%s", (image_id,))
+
+	conn.commit()
+	conn.close()
+
+def fetch_random_entry():
+	pass
+
+def fetch_specific_entry():
+	pass
 
 def create_ssl_certs():
 	with open(ssl_cert_path, 'w+') as f:
