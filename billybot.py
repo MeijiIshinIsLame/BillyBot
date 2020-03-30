@@ -20,6 +20,25 @@ class MyClient(discord.Client):
 		print(self.user.id)
 		print('------')
 
+	async def is_hentai_channel(ctx):
+		return ctx.channel == hentai_channel_id
+
+	####################    COMMANDS    ####################
+	@bot.command(name='delete', pass_context=True)
+	@commands.check(is_hentai_channel)
+	async def delete_image(ctx, *, index: str):
+		print(ctx, index)
+		print("we triedb\n\n\n\n\n\n")
+		try:
+			database.delete_entry(index)
+			await bot.say('Deleted entry #{}.'.format(index))
+		except Exception as e:
+			print(e)
+			await bot.say('Image was unable to be deleted. Syncing database...')
+			#sync database
+			await bot.say('Finished!')
+	####################    END COMMANDS    ####################
+
 	@bot.event
 	async def on_message(self, message):
 		hentai_channel = self.get_channel(hentai_channel_id)
@@ -52,25 +71,6 @@ class MyClient(discord.Client):
 
 def make_mention_object_by_id(author_id):
 	return "<@{}>".format(message.author.id)
-
-async def is_hentai_channel(ctx):
-	return ctx.channel == hentai_channel_id
-
-####################    COMMANDS    ####################
-@bot.command(name='delete', pass_context=True)
-@commands.check(is_hentai_channel)
-async def delete_image(ctx, *, index: str):
-	print(ctx, index)
-	print("we triedb\n\n\n\n\n\n")
-	try:
-		database.delete_entry(index)
-		await bot.say('Deleted entry #{}.'.format(index))
-	except Exception as e:
-		print(e)
-		await bot.say('Image was unable to be deleted. Syncing database...')
-		#sync database
-		await bot.say('Finished!')
-####################    END COMMANDS    ####################
 
 client = MyClient()
 client.run(os.environ["BOT_TOKEN"])
