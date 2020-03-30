@@ -63,12 +63,12 @@ async def delete_image(ctx, index: str):
 	print("we triedb\n\n\n\n\n\n")
 	try:
 		database.delete_entry(index)
-		await ctx.channel.send('Deleted entry #{}.'.format(index))
+		await bot.say('Deleted entry #{}.'.format(index))
 	except Exception as e:
 		print(e)
-		await ctx.channel.send('Image was unable to be deleted. Syncing database...')
+		await bot.say('Image was unable to be deleted. Syncing database...')
 		#sync database
-		await ctx.channel.send('Finished!')
+		await bot.say('Finished!')
 ####################    END COMMANDS    ####################
 
 client = MyClient()
