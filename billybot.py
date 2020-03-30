@@ -11,10 +11,10 @@ from discord.ext import commands
 
 bot = commands.Bot(command_prefix='!')
 hentai_channel_id = int(os.environ["HENTAI_CHANNEL_ID"])
-hentai_channel = bot.get_channel(hentai_channel_id)
 
 def is_hentai_channel(ctx):
-	return ctx.channel == hentai_channel_id
+	hentai_channel = bot.get_channel(hentai_channel_id)
+	return ctx.channel == hentai_channel
 
 @bot.event
 async def on_ready():
@@ -29,23 +29,20 @@ async def cat(ctx):
 
 ####################    COMMANDS    ####################
 @bot.command(name='delete', pass_context=True)
-#@commands.check(is_hentai_channel)
+@commands.check(is_hentai_channel)
 async def delete_image(ctx, index: str):
 	print(ctx, index)
 	print("we triedb\n\n\n\n\n\n")
 	print(ctx.channel)
 	print(hentai_channel)
-	if ctx.channel == hentai_channel:
-		try:
-			database.delete_entry(index)
-			await ctx.channel.send('Deleted entry #{}.'.format(index))
-		except Exception as e:
-			print(e)
-			await ctx.channel.send('Image was unable to be deleted. Syncing database...')
-			#sync database
-			await ctx.channel.send('Finished!')
-	else:
-		await ctx.channel.send("Come on bro, hentai commands go in the hentai channel...")
+	try:
+		database.delete_entry(index)
+		await ctx.channel.send('Deleted entry #{}.'.format(index))
+	except Exception as e:
+		print(e)
+		await ctx.channel.send('Image was unable to be deleted. Syncing database...')
+		#sync database
+		await ctx.channel.send('Finished!')
 ####################    END COMMANDS    ####################
 
 @bot.event
