@@ -24,7 +24,7 @@ class MyClient(discord.Client):
 
 	####################    COMMANDS    ####################
 	@bot.command(name='delete', pass_context=True)
-	@commands.check(self.is_hentai_channel)
+	@commands.check(is_hentai_channel)
 	async def delete_image(self, ctx, index: str):
 		try:
 			database.delete_entry(index)
