@@ -12,6 +12,9 @@ from discord.ext import commands
 bot = commands.Bot(command_prefix='!')
 hentai_channel_id = int(os.environ["HENTAI_CHANNEL_ID"])
 
+async def is_hentai_channel(ctx):
+	return ctx.channel == hentai_channel_id
+
 class MyClient(discord.Client):
 
 	async def on_ready(self):
@@ -20,23 +23,21 @@ class MyClient(discord.Client):
 		print(self.user.id)
 		print('------')
 
-	async def is_hentai_channel(ctx):
-		return ctx.channel == hentai_channel_id
-
 	####################    COMMANDS    ####################
 	@bot.command(name='delete', pass_context=True)
 	@commands.check(is_hentai_channel)
-	async def delete_image(ctx, *, index: str):
+	async def delete_image(self, ctx, *, index: str):
+		await self.wait_until_ready()
 		print(ctx, index)
 		print("we triedb\n\n\n\n\n\n")
 		try:
 			database.delete_entry(index)
-			await bot.say('Deleted entry #{}.'.format(index))
+			await ctx.channel.send('Deleted entry #{}.'.format(index))
 		except Exception as e:
 			print(e)
-			await bot.say('Image was unable to be deleted. Syncing database...')
+			await ctx.channel.send('Image was unable to be deleted. Syncing database...')
 			#sync database
-			await bot.say('Finished!')
+			await ctx.channel.send('Finished!')
 	####################    END COMMANDS    ####################
 
 	@bot.event
