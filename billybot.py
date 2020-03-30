@@ -19,23 +19,6 @@ class MyClient(discord.Client):
 		print(self.user.id)
 		print('------')
 
-	async def is_hentai_channel(self, ctx):
-		return ctx.channel == hentai_channel_id
-
-	####################    COMMANDS    ####################
-	@bot.command(name='delete')
-	#@commands.check(is_hentai_channel)
-	async def delete_image(self, ctx, index: str):
-		try:
-			database.delete_entry(index)
-			await ctx.channel.send('Deleted entry #{}.'.format(index))
-		except Exception as e:
-			print(e)
-			await ctx.channel.send('Image was unable to be deleted. Syncing database...')
-			#sync database
-			await ctx.channel.send('Finished!')
-	####################    END COMMANDS    ####################
-
 	async def on_message(self, message):
 		hentai_channel = self.get_channel(hentai_channel_id)
 		if message.channel == hentai_channel:
@@ -64,6 +47,23 @@ class MyClient(discord.Client):
 
 def make_mention_object_by_id(author_id):
 	return "<@{}>".format(message.author.id)
+
+async def is_hentai_channel(ctx):
+	return ctx.channel == hentai_channel_id
+
+####################    COMMANDS    ####################
+@bot.command(name='delete')
+#@commands.check(is_hentai_channel)
+async def delete_image(ctx, index: str):
+	try:
+		database.delete_entry(index)
+		await ctx.channel.send('Deleted entry #{}.'.format(index))
+	except Exception as e:
+		print(e)
+		await ctx.channel.send('Image was unable to be deleted. Syncing database...')
+		#sync database
+		await ctx.channel.send('Finished!')
+####################    END COMMANDS    ####################
 
 client = MyClient()
 client.run(os.environ["BOT_TOKEN"])
