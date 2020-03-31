@@ -24,10 +24,6 @@ async def on_ready():
 	print(bot.user.id)
 	print('------')
 
-@bot.command(pass_context=True)
-async def cat(ctx):
-	await ctx.channel.send('cat')
-
 ####################    COMMANDS    ####################
 @bot.command(name='del', pass_context=True)
 @commands.check(is_hentai_channel)
@@ -49,7 +45,8 @@ async def pull_hentai(ctx, index : str = None):
 			row = database.fetch_specific_entry(index)
 			image_attachment, entry_no, user, add_date = helpers.format_hentai_entry(row)
 			image_attachment = os.path.join(photos_path, image_attachment)
-			await ctx.channel.send("Entry #{} added by {} on {}.".format(entry_no, user, add_date), file=discord.File(image_attachment))
+			msg = await ctx.channel.send("Fetching data...", file=discord.File(image_attachment))
+			await msg.edit(content="Entry #{} added by {} on {}.".format(entry_no, user, add_date))
 		except Exception as e:
 			await ctx.channel.send('Could not send image.')
 			print(e)
