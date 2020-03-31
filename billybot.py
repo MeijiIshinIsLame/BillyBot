@@ -47,7 +47,7 @@ async def pull_hentai(ctx, index: str):
 	if index:
 		row = database.fetch_specific_entry(index)
 
-		image_attachment, entry_no, user, add_date = helpers.format_hentai_entry()
+		image_attachment, entry_no, user, add_date = helpers.format_hentai_entry(row)
 		image_attachment = os.path.join(photos_path, image_attachment)
 		try:
 			channel = ctx.channel
