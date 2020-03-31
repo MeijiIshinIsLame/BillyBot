@@ -66,26 +66,31 @@ def delete_entry(image_id):
 	conn.close()
 
 def fetch_random_entry():
-	pass
+	conn, c = connect_to_db()
+	c.execute("SELECT staticID, staticName, author, insertDate FROM images ORDER BY RANDOM() LIMIT 1")
+	row = c.fetchone()
+	filename = row[0]
+	conn.commit()
+	conn.close()
+	return filename
 
-def fetch_specific_entry():
-	pass
+def fetch_specific_entry(image_id):
+	conn, c = connect_to_db()
+	c.execute("SELECT staticID, staticName, author, insertDate FROM images WHERE staticID=%s", (image_id,))
+	row = c.fetchone()
+	conn.commit()
+	conn.close()
+	return row
 
 def create_ssl_certs():
 	with open(ssl_cert_path, 'w+') as f:
 		f.write(os.environ["SSL_CERT"])
 
-	print(os.environ["SSL_CERT"])
-
 	with open(ssl_key_path, 'w+') as f:
 		f.write(os.environ["SSL_KEY"])
 
-	print(os.environ["SSL_KEY"])
-
 	with open(ssl_root_cert_path, 'w+') as f:
 		f.write(os.environ["SSL_ROOT_CERT"])
-
-	print(os.environ["SSL_ROOT_CERT"])
 
 def ssl_certs_exist():
 	return os.path.exists(ssl_cert_path) and os.path.exists(ssl_key_path) and os.path.exists(ssl_root_cert_path)

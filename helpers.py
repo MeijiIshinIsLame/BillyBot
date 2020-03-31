@@ -9,6 +9,17 @@ def is_image(link):
 			return True
 	return False
 
+def make_mention_object_by_id(author_id):
+	return "<@{}>".format(message.author.id)
+
+def format_hentai_entry(row):
+	image_attachment = row[1]
+	entry_no = row[0]
+	user = make_mention_object_by_id(row[2])
+	add_date = row[3]
+
+	return image_attachment, entry_no, user, add_date
+
 def get_random_save_message():
 	save_messages = ["Thanks u fkng degenerate",
 					 "Nice one simp.",
