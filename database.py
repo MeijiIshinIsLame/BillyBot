@@ -69,10 +69,9 @@ def fetch_random_entry():
 	conn, c = connect_to_db()
 	c.execute("SELECT staticID, staticName, author, insertDate FROM images ORDER BY RANDOM() LIMIT 1")
 	row = c.fetchone()
-	filename = row[0]
 	conn.commit()
 	conn.close()
-	return filename
+	return row
 
 def fetch_specific_entry(image_id):
 	conn, c = connect_to_db()
