@@ -73,20 +73,20 @@ async def on_message(message):
 	if message.author.id == bot.user.id:
 			return 
 
-		if message.attachments:
-			if helpers.is_image(message.attachments[0].url):
+	if message.attachments:
+		if helpers.is_image(message.attachments[0].url):
+			try:
+				saved_image = images.save_image(message.attachments[0].url)
+				image_id = saved_image.split(".")[0]
 				try:
-					saved_image = images.save_image(message.attachments[0].url)
-					image_id = saved_image.split(".")[0]
-					try:
-						database.add_image_to_db(saved_image, message)
-						await message.channel.send('Image saved as entry #' + image_id + ". " + helpers.get_random_save_message())
-					except Exception as e:
-						await message.channel.send('Image saved, but adding to database failed. Image deleted.')
-						images.delete_image(saved_image)
-						print(e)
+					database.add_image_to_db(saved_image, message)
+					await message.channel.send('Image saved as entry #' + image_id + ". " + helpers.get_random_save_message())
 				except Exception as e:
-					await message.channel.send('Could not save image. Check the logs Zach.')
+					await message.channel.send('Image saved, but adding to database failed. Image deleted.')
+					images.delete_image(saved_image)
 					print(e)
+			except Exception as e:
+				await message.channel.send('Could not save image. Check the logs Zach.')
+				print(e)
 
 bot.run(os.environ["BOT_TOKEN"])
