@@ -10,7 +10,7 @@ def is_image(link):
 	return False
 
 def make_mention_object_by_id(author_id):
-	return "<@{}>".format(message.author.id)
+	return "<@{}>".format(author_id)
 
 def format_hentai_entry(row):
 	image_attachment = row[1]
