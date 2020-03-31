@@ -50,9 +50,7 @@ async def pull_hentai(ctx, index: str):
 		image_attachment, entry_no, user, add_date = helpers.format_hentai_entry(row)
 		image_attachment = os.path.join(photos_path, image_attachment)
 		try:
-			channel = ctx.channel
-			await bot.send_file(channel, image_attachment, filename="Hentai",
-				content="Entry #{} added by {} on {}.".format(entry_no, user, add_date))
+			await ctx.channel.send("Entry #{} added by {} on {}.".format(entry_no, user, add_date), file=discord.File(image_attachment))
 		except Exception as e:
 			await ctx.channel.send('Could not send image.')
 			print(e)
