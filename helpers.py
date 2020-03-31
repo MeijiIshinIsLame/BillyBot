@@ -16,7 +16,7 @@ def format_hentai_entry(row):
 	image_attachment = row[1]
 	entry_no = row[0]
 	user = make_mention_object_by_id(row[2])
-	add_date = row[3]
+	add_date = row[3].strftime("%m-%d-%Y")
 
 	return image_attachment, entry_no, user, add_date
 
