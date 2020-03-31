@@ -54,7 +54,10 @@ async def pull_hentai(ctx, index : str = None):
 			await ctx.channel.send('Could not send image.')
 			print(e)
 	else:
-		await ctx.channel.send('Placeholder for random hentai')
+		row = database.fetch_random_entry()
+		image_attachment, entry_no, user, add_date = helpers.format_hentai_entry(row)
+		image_attachment = os.path.join(photos_path, image_attachment)
+		await ctx.channel.send("Entry #{} added by {} on {}.".format(entry_no, user, add_date), file=discord.File(image_attachment))
 
 @bot.command(name='logout')
 #admin check
