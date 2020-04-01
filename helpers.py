@@ -5,9 +5,6 @@ import os
 photos_path = os.environ["PHOTOS_PATH"]
 pic_ext = ['.jpg','.png','.jpeg']
 
-def create_photos_path_if_none():
-	if !os.isdir(photos_path)
-
 def is_image(link):
 	for ext in pic_ext:
 		if link.endswith(ext):
