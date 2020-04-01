@@ -10,6 +10,7 @@ import discord
 from discord.ext import commands
 
 bot = commands.Bot(command_prefix='!')
+bot.remove_command('help')
 hentai_channel_id = int(os.environ["HENTAI_CHANNEL_ID"])
 photos_path = os.environ["PHOTOS_PATH"]
 
