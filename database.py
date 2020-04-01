@@ -68,10 +68,12 @@ def sync_db():
 			try:
 				images.save_image(url, filename=filename)
 				images_recovered += 1
+				print(filename, "recovered")
 			except Exception as e:
 				print(e)
 				c.execute("DELETE FROM images WHERE staticName=%s", (filename,))
 				images_deleted += 1
+				print(filename, "deleted")
 
 	#clean images directory
 	files = os.listdir(photos_path)
@@ -82,6 +84,7 @@ def sync_db():
 				if c.rowcount == 0:
 					images.delete_image(filename)
 					images_deleted += 1
+					print(filename, "deleted")
 	conn.commit()
 	conn.close()
 	return images_deleted, images_recovered

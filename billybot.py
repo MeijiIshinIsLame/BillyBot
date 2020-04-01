@@ -29,6 +29,11 @@ async def on_ready():
 	print('------')
 
 ####################    COMMANDS    ####################
+@bot.command(name='help', pass_context=True)
+async def help_message(ctx):
+	help_msg = helpers.get_help_msg()
+	await ctx.channel.send(content=help_msg)
+
 @bot.command(name='del', pass_context=True)
 @commands.check(is_hentai_channel)
 async def delete_image(ctx, index: str):
@@ -69,8 +74,9 @@ async def logout(ctx):
 @bot.command(name='syncdb', pass_context=True)
 @commands.check(is_botadmin)
 async def sync_db_command(ctx):
+	msg = await ctx.channel.send("Syncing database...")
 	images_deleted, images_recovered = database.sync_db()
-	await ctx.channel.send("Database synced! Images deleted: {}  |  Images recovered: {}".format(images_deleted, images_recovered))
+	await msg.edit(content="Database synced! Images deleted: {}  |  Images recovered: {}".format(images_deleted, images_recovered))
 
 ####################    END COMMANDS    ####################
 
