@@ -1,6 +1,8 @@
 import requests
 import os
 import random
+from io import BytesIO
+from PIL import Image
 
 import environment_variables
 
@@ -22,6 +24,11 @@ def save_image(url):
 def delete_image(filename):
 	full_image_path = os.path.join(photos_path, filename)
 	os.remove(full_image_path)
+
+def image_too_small(image_path):
+	image = Image.open(image_path)
+	width, height = image.size
+	return width <= 400 and height <= 400
 
 def get_last_image():
 	files = os.listdir(photos_path)
