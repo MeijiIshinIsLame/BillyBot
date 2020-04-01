@@ -80,7 +80,7 @@ def sync_db():
 			if filename.endswith(ext):
 				c.execute("SELECT staticName FROM images WHERE staticName=%s", (filename,))
 				if c.rowcount == 0:
-					delete_image(filename)
+					images.delete_image(filename)
 					images_deleted += 1
 	conn.commit()
 	conn.close()
