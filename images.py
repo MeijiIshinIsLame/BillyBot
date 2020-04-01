@@ -9,15 +9,20 @@ pic_ext = ['.jpg','.png','.jpeg']
 #photos_path = os.path.join(os.getcwd(), "photos")
 photos_path = os.environ["PHOTOS_PATH"]
 
-def save_image(url):
+def save_image(url, filename=None):
 	for ext in pic_ext:
 		if url.endswith(ext):
 			request = requests.get(url)
+
 			if request.status_code == 200:
-				filename = str(get_last_image()  + 1)
-				filename += ext
-				with open(os.path.join(photos_path, filename), 'wb') as f:
-					f.write(request.content)
+				if filename:
+					with open(os.path.join(photos_path, filename), 'wb') as f:
+						f.write(request.content)
+				else:
+					filename = str(get_last_image()  + 1)
+					filename += ext
+					with open(os.path.join(photos_path, filename), 'wb') as f:
+						f.write(request.content)
 				return filename
 
 def delete_image(filename):

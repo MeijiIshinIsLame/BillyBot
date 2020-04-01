@@ -50,7 +50,40 @@ def add_image_to_db(image_filename, message):
 	conn.close()
 
 def sync_db():
-	pass
+	images_recovered = 0
+	images_deleted = 0
+
+	conn, c = connect_to_db()
+	c.execute("SELECT staticName, url FROM images")
+	image_database = c.fetchall()
+
+	#clean database
+	for row in image_database:
+		filename = row[0]
+		url = row[1]
+
+		full_image_path = os.path.join(photos_path, filename)
+		if not os.path.isfile(full_image_path):
+			try:
+				images.save_image(url, filename=filename)
+				images_recovered += 1
+			except Exception as e:
+				print(e)
+				c.execute("DELETE FROM images WHERE staticName=%s", (filename,))
+				images_deleted += 1
+
+	#clean images directory
+	files = os.listdir(photos_path)
+	for filename in files:
+		for ext in pic_ext:
+			if filename.endswith(ext):
+				c.execute("SELECT staticName FROM images WHERE staticName=%s", (filename,))
+				if cur.rowcount() == 0:
+					delete_image(filename)
+					images_deleted += 1
+	conn.commit()
+	conn.close()
+	return images_deleted, images_recovered
 
 def delete_entry(image_id):
 	conn, c = connect_to_db()

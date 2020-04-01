@@ -63,8 +63,15 @@ async def pull_hentai(ctx, index : str = None):
 @bot.command(name='logout')
 @commands.check(is_botadmin)
 async def logout(ctx):
-	await ctx.channel.send('脱退させていただきます')
+	await ctx.channel.send('Shootz outies.')
 	await bot.logout()
+
+@bot.command(name='syncdb', pass_context=True)
+@commands.check(is_botadmin)
+async def sync_db_command(ctx):
+	images_deleted, images_recovered = database.sync_db()
+	await ctx.channel.send("Database synced! Images deleted: {}  |  Images recovered: {}".format(images_deleted, images_recovered))
+
 ####################    END COMMANDS    ####################
 
 @bot.event
