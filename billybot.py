@@ -18,7 +18,7 @@ def is_hentai_channel(ctx):
 	return ctx.channel == hentai_channel
 
 def is_botadmin(ctx):
-	zach_id = "138458225958715392"
+	zach_id = await bot.get_user_info(user_id="138458225958715392")
 	return ctx.author.id == zach_id
 
 @bot.event
