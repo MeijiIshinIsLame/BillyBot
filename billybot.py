@@ -9,7 +9,7 @@ import environment_variables
 import discord
 from discord.ext import commands
 
-bot = commands.Bot(command_prefix='!')
+bot = commands.Bot(command_prefix='$')
 bot.remove_command('help')
 hentai_channel_id = int(os.environ["HENTAI_CHANNEL_ID"])
 photos_path = os.environ["PHOTOS_PATH"]
@@ -65,6 +65,16 @@ async def pull_hentai(ctx, index : str = None):
 		image_attachment = os.path.join(photos_path, image_attachment)
 		msg = await ctx.channel.send("Fetching data...", file=discord.File(image_attachment))
 		await msg.edit(content="Entry #{} added by {} on {}.".format(entry_no, user, add_date))
+
+@bot.command(name='counthentai', pass_context=True)
+async def count_hentai(ctx, user : discord.User = None):
+	if user:
+		total_count = database.count_hentai(str(user.id))
+		msg = await ctx.channel.send("Fetching data...")
+		await msg.edit(content="{} contributed {} entries to the hentai database.".format(user, total_count))
+	else:
+		total_count = database.count_hentai()
+		await ctx.channel.send(content="There are {} entries in the hentai database.".format(total_count))	
 
 @bot.command(name='logout')
 @commands.check(is_botadmin)

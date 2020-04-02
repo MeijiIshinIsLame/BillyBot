@@ -45,8 +45,9 @@ def get_help_msg():
 	help_msg = """Hello Billy Boys :)
 
 **Commands:**
-`!hentai (optional number): Pulls up a hentai entry in the database (Only useable in the hentai channel)`
-`!del (entry number): Deletes a hentai entry.`
+`$hentai (optional number): Pulls up a hentai entry in the database (Only useable in the hentai channel)`
+`$del (entry number): Deletes a hentai entry.`
+`$counthentai (Optional mention): Counts hentai entries in total or per user.`
 
 > Q: How do I add hentai?
 Simply be in the hentai channel, and drop an image. Images under 400x400 are not supported, and neither are gifs."""
