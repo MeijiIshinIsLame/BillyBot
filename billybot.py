@@ -68,15 +68,19 @@ async def pull_hentai(ctx, index : str = None):
 
 @bot.command(name='counthentai', pass_context=True)
 async def count_hentai(ctx, user : discord.User = None):
-	if user:
-		user_id = str(user.id)
-		total_count = database.count_hentai(user_id)
-		user = helpers.make_mention_object_by_id(user_id)
-		msg = await ctx.channel.send("Fetching data...")
-		await msg.edit(content="{} contributed {} entries to the hentai database.".format(user, total_count))
-	else:
-		total_count = database.count_hentai()
-		await ctx.channel.send(content="There are {} entries in the hentai database.".format(total_count))	
+	try:
+		if user:
+			user_id = str(user.id)
+			total_count = database.count_hentai(user_id)
+			user = helpers.make_mention_object_by_id(user_id)
+			msg = await ctx.channel.send("Fetching data...")
+			await msg.edit(content="{} contributed {} entries to the hentai database.".format(user, total_count))
+		else:
+			total_count = database.count_hentai()
+			await ctx.channel.send(content="There are {} entries in the hentai database.".format(total_count))	
+	except Exception as e:
+		print(e)
+		await ctx.channel.send(content="Could not fetch data.")
 
 @bot.command(name='logout')
 @commands.check(is_botadmin)
