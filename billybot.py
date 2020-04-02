@@ -69,7 +69,9 @@ async def pull_hentai(ctx, index : str = None):
 @bot.command(name='counthentai', pass_context=True)
 async def count_hentai(ctx, user : discord.User = None):
 	if user:
-		total_count = database.count_hentai(str(user.id))
+		user_id = str(user.id)
+		total_count = database.count_hentai(user_id)
+		user = make_mention_object_by_id(user_id)
 		msg = await ctx.channel.send("Fetching data...")
 		await msg.edit(content="{} contributed {} entries to the hentai database.".format(user, total_count))
 	else:
