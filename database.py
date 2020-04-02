@@ -118,6 +118,17 @@ def fetch_specific_entry(image_id):
 	conn.close()
 	return row
 
+def count_hentai(user_id=None):
+	conn, c = connect_to_db()
+	if user_id:
+		c.execute("SELECT * FROM images WHERE author=%s", (user_id,))
+	else:
+		c.execute("SELECT * FROM images")
+	total = c.rowcount
+	conn.commit()
+	conn.close()
+	return total
+
 def create_ssl_certs():
 	with open(ssl_cert_path, 'w+') as f:
 		f.write(os.environ["SSL_CERT"])
