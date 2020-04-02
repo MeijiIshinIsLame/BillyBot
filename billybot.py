@@ -88,27 +88,28 @@ async def on_message(message):
 	if message.author.id == bot.user.id:
 			return 
 
-	if message.attachments:
-		if helpers.is_image(message.attachments[0].url):
-			try:
-				saved_image = images.save_image(message.attachments[0].url)
+	if is_hentai_channel(message):
+		if message.attachments:
+			if helpers.is_image(message.attachments[0].url):
+				try:
+					saved_image = images.save_image(message.attachments[0].url)
 
-				if images.image_too_small(saved_image):
-					#waifu2x stuff will go here eventually
-					images.delete_image(saved_image)
-					await message.channel.send("Image too small! Gotta be bigger than 400x400 dawg.")	
-				else:
-					image_id = saved_image.split(".")[0]
-					try:
-						database.add_image_to_db(saved_image, message)
-						await message.channel.send('Image saved as entry #' + image_id + ". " + helpers.get_random_save_message())
-					except Exception as e:
-						await message.channel.send('Image saved, but adding to database failed. Image deleted.')
+					if images.image_too_small(saved_image):
+						#waifu2x stuff will go here eventually
 						images.delete_image(saved_image)
-						print(e)
+						await message.channel.send("Image too small! Gotta be bigger than 400x400 dawg.")	
+					else:
+						image_id = saved_image.split(".")[0]
+						try:
+							database.add_image_to_db(saved_image, message)
+							await message.channel.send('Image saved as entry #' + image_id + ". " + helpers.get_random_save_message())
+						except Exception as e:
+							await message.channel.send('Image saved, but adding to database failed. Image deleted.')
+							images.delete_image(saved_image)
+							print(e)
 
-			except Exception as e:
-				await message.channel.send('Could not save image. Check the logs Zach.')
-				print(e)
+				except Exception as e:
+					await message.channel.send('Could not save image. Check the logs Zach.')
+					print(e)
 
 bot.run(os.environ["BOT_TOKEN"])
