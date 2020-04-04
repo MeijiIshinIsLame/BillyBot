@@ -7,7 +7,6 @@ reddit = praw.Reddit(client_id=os.environ["reddit_id"],
 def get_incest_story():
 	submission = reddit.subreddit("gayincest").random()
 	full_submission = """**{}**
-
 	```
 	{}
 	```""".format(submission.title, submission.selftext)
