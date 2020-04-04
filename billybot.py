@@ -30,6 +30,7 @@ async def on_ready():
 	print('------')
 
 ####################    COMMANDS    ####################
+
 @bot.command(name='help', pass_context=True)
 async def help_message(ctx):
 	help_msg = helpers.get_help_msg()
@@ -129,3 +130,7 @@ async def on_message(message):
 					print(e)
 
 bot.run(os.environ["BOT_TOKEN"])
+
+
+#todo: add regular username to database or just nope out and make flask app
+#make logging
