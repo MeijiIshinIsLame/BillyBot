@@ -5,6 +5,7 @@ import helpers
 import database
 import images
 import environment_variables
+import reddit_module as reddit_scraper
 
 import discord
 from discord.ext import commands
@@ -91,6 +92,11 @@ async def count_hentai(ctx, user : discord.User = None):
 		print(e)
 		await send_to_log_channel(e)
 		await ctx.channel.send(content="Could not fetch data.")
+
+@bot.command(name='gayincest', pass_context=True)
+async def get_gay_incest(ctx):
+	random_story = reddit_scraper.get_incest_story()
+	await ctx.channel.send(content=random_story)
 
 @bot.command(name='logout')
 @commands.check(is_botadmin)
