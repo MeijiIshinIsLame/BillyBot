@@ -14,7 +14,7 @@ async def get_incest_story():
 
 	for submission in reddit.subreddit("gayincest").hot(limit=100000):
 		if len(submission.selftext) < max_length and len(submission.selftext) > min_length:
-			if "https://imgur.com/" not in full_submission:
+			if "https://imgur.com/" not in submission.selftext:
 				valid_submissions.append(submission)
 
 	if valid_submissions:
