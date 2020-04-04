@@ -50,7 +50,7 @@ async def delete_image(ctx, index: str):
 		await ctx.channel.send('Deleted entry #{}.'.format(index))
 	except Exception as e:
 		print(e)
-		send_to_log_channel(e)
+		await send_to_log_channel(e)
 		await ctx.channel.send('Image was unable to be deleted.')
 		#sync database
 
@@ -67,7 +67,7 @@ async def pull_hentai(ctx, index : str = None):
 		except Exception as e:
 			await ctx.channel.send('Could not send image.')
 			print(e)
-			send_to_log_channel(e)
+			await send_to_log_channel(e)
 	else:
 		row = database.fetch_random_entry()
 		image_attachment, entry_no, user, add_date = helpers.format_hentai_entry(row)
@@ -89,7 +89,7 @@ async def count_hentai(ctx, user : discord.User = None):
 			await ctx.channel.send(content="There are {} entries in the hentai database.".format(total_count))	
 	except Exception as e:
 		print(e)
-		send_to_log_channel(e)
+		await send_to_log_channel(e)
 		await ctx.channel.send(content="Could not fetch data.")
 
 @bot.command(name='logout')
@@ -133,11 +133,11 @@ async def on_message(message):
 							await message.channel.send('Image saved, but adding to database failed. Image deleted.')
 							images.delete_image(saved_image)
 							print(e)
-							send_to_log_channel(e)
+							await send_to_log_channel(e)
 				except Exception as e:
 					await message.channel.send('Could not save image. Check the logs Zach.')
 					print(e)
-					send_to_log_channel(e)
+					await send_to_log_channel(e)
 
 bot.run(os.environ["BOT_TOKEN"])
 
