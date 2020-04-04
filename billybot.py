@@ -94,6 +94,7 @@ async def count_hentai(ctx, user : discord.User = None):
 		await ctx.channel.send(content="Could not fetch data.")
 
 @bot.command(name='gayincest', pass_context=True)
+@commands.check(is_hentai_channel)
 async def get_gay_incest(ctx):
 	random_story = reddit_scraper.get_incest_story()
 	await ctx.channel.send(content=random_story)
