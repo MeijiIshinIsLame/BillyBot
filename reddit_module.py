@@ -6,8 +6,10 @@ reddit = praw.Reddit(client_id=os.environ["reddit_id"],
 
 def get_incest_story():
 	submission = reddit.subreddit("gayincest").random()
+	max_length = 2000
+	min_length = 15
 	while True:
 		full_submission = "**{}**\n\n{}".format(submission.title, submission.selftext.strip("\t"))
-		if full_submission.len() < 2000:
+		if len(full_submission) < max_length and len(full_submission) > min_length:
 			break
 	return full_submission
