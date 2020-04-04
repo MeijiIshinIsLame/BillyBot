@@ -11,6 +11,7 @@ def get_incest_story():
 	i = 0
 	while True:
 		full_submission = "**{}**\n\n{}".format(submission.title, submission.selftext.strip("\t"))
+		i += 1
 		if i == 10:
 			return "Could not fetch submission."
 		if len(full_submission) < max_length and len(full_submission) > min_length:
