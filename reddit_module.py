@@ -1,5 +1,6 @@
 import praw
 import os
+import time
 
 reddit = praw.Reddit(client_id=os.environ["reddit_id"],
 	client_secret=os.environ["reddit_secret"], user_agent=os.environ["reddit_agent"])
@@ -9,11 +10,10 @@ def get_incest_story():
 	max_length = 2000
 	min_length = 15
 	i = 0
-	while True:
+	while i < 30:
 		full_submission = "**{}**\n\n{}".format(submission.title, submission.selftext.strip("\t"))
-		i += 1
-		if i == 10:
-			return "Could not fetch submission."
 		if len(full_submission) < max_length and len(full_submission) > min_length:
-			break
-	return full_submission
+			return full_submission
+		i += 1
+		time.sleep(0.3)
+	return "Could not fetch submission."
