@@ -22,6 +22,11 @@ def is_botadmin(ctx):
 	zach_id = 138458225958715392
 	return ctx.author.id == zach_id
 
+async def send_to_log_channel(error):
+	logs_channel = 695558382622343279
+	channel = bot.get_channel(logs_channel)
+	await channel.send("```{}```".format(error))
+
 @bot.event
 async def on_ready():
 	print('Logged in as')
