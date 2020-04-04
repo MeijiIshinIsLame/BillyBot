@@ -96,8 +96,9 @@ async def count_hentai(ctx, user : discord.User = None):
 @bot.command(name='gayincest', pass_context=True)
 @commands.check(is_hentai_channel)
 async def get_gay_incest(ctx):
-	random_story = reddit_scraper.get_incest_story()
-	await ctx.channel.send(content=random_story)
+	random_story = await reddit_scraper.get_incest_story()
+	msg = await ctx.channel.send(content="Fetching ur gay incest...")
+	await msg.edit(content=random_story)
 
 @bot.command(name='logout')
 @commands.check(is_botadmin)
