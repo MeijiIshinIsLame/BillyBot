@@ -23,7 +23,8 @@ def is_botadmin(ctx):
 	return ctx.author.id == zach_id
 
 async def send_to_log_channel(error):
-	logs_channel = 695558382622343279
+	#695558382622343279
+	logs_channel = os.environ["logs_channel"]
 	channel = bot.get_channel(logs_channel)
 	await channel.send("```{}```".format(error))
 
