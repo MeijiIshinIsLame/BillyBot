@@ -18,6 +18,7 @@ async def get_incest_story():
 				valid_submissions.append(submission)
 
 	if valid_submissions:
+		submission = random.choice(valid_submissions)
 		full_submission = "**{}**\n\n{}".format(submission.title, submission.selftext.strip("\t"))
 		return full_submission
 	else:
