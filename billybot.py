@@ -24,7 +24,7 @@ def is_botadmin(ctx):
 
 async def send_to_log_channel(error):
 	#695558382622343279
-	logs_channel = os.environ["logs_channel"]
+	logs_channel = int(os.environ["logs_channel"])
 	channel = bot.get_channel(logs_channel)
 	await channel.send("```{}```".format(error))
 
