@@ -24,8 +24,17 @@ async def get_incest_story(ctx):
 
 	time_difference = datetime.now() - cached_time
 
+	#debug
+	await ctx.channel.send("Total subs: {}".format(str(len(valid_submissions))))
+
 	if time_difference.days > 0:
 		refresh_valid_submissions()
+		cached_time = datetime.now()
+
+	#more debug
+	if time_difference.minutes > 0:
+		refresh_valid_submissions()
+		await ctx.channel.send("Refreshed")
 		cached_time = datetime.now()
 
 max_length = 1900
