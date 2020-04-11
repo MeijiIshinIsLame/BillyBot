@@ -5,6 +5,8 @@ import asyncio
 import random
 from datetime import datetime
 
+cached_time = datetime.now()
+
 reddit = praw.Reddit(client_id=os.environ["reddit_id"],
 	client_secret=os.environ["reddit_secret"], user_agent=os.environ["reddit_agent"])
 
@@ -41,4 +43,3 @@ max_length = 1900
 min_length = 10
 valid_submissions = []
 refresh_valid_submissions()
-cached_time = datetime.now()
