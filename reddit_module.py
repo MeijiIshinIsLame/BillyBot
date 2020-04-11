@@ -9,7 +9,7 @@ max_length = 1900
 min_length = 10
 
 class RedditBot:
-	def __init__():
+	def __init__(self):
 		self.cached_time = datetime.now()
 		self.reddit = praw.Reddit(client_id=os.environ["reddit_id"],
 			client_secret=os.environ["reddit_secret"], user_agent=os.environ["reddit_agent"])
