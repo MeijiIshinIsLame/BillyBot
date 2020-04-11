@@ -8,13 +8,6 @@ from datetime import datetime
 reddit = praw.Reddit(client_id=os.environ["reddit_id"],
 	client_secret=os.environ["reddit_secret"], user_agent=os.environ["reddit_agent"])
 
-max_length = 1900
-min_length = 10
-valid_submissions = []
-refresh_valid_submissions()
-
-cached_time = datetime.now()
-
 def refresh_valid_submissions():
 	for submission in reddit.subreddit("gayincest").hot(limit=10000):
 		if len(submission.selftext) < max_length and len(submission.selftext) > min_length:
@@ -34,3 +27,9 @@ async def get_incest_story(ctx):
 	if time_difference.days > 0:
 		refresh_valid_submissions()
 		cached_time = datetime.now()
+
+max_length = 1900
+min_length = 10
+valid_submissions = []
+refresh_valid_submissions()
+cached_time = datetime.now()
