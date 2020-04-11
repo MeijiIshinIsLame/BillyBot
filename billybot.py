@@ -96,9 +96,7 @@ async def count_hentai(ctx, user : discord.User = None):
 @bot.command(name='gayincest', pass_context=True)
 @commands.check(is_hentai_channel)
 async def get_gay_incest(ctx):
-	msg = await ctx.channel.send(content="Fetching ur gay incest...")
-	random_story = await reddit_scraper.get_incest_story()
-	await msg.edit(content=random_story)
+	await reddit_scraper.get_incest_story(ctx)
 
 @bot.command(name='logout')
 @commands.check(is_botadmin)
@@ -151,4 +149,3 @@ bot.run(os.environ["BOT_TOKEN"])
 
 
 #todo: add regular username to database or just nope out and make flask app
-#make logging
