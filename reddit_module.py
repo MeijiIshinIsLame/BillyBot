@@ -31,15 +31,12 @@ class RedditBot:
 
 		time_difference = datetime.now() - self.cached_time
 
-		#debug
-		await ctx.channel.send("Total subs: {}".format(str(len(self.valid_submissions))))
-
 		if time_difference > timedelta(days=1):
 			self.refresh_valid_submissions()
 			self.cached_time = datetime.now()
 
 		#more debug
-		if time_difference > timedelta(minutes=1):
-			self.refresh_valid_submissions()
-			await ctx.channel.send("Refreshed")
-			self.cached_time = datetime.now()
+		#if time_difference > timedelta(minutes=1):
+		#	self.refresh_valid_submissions()
+		#	await ctx.channel.send("Refreshed")
+		#	self.cached_time = datetime.now()
