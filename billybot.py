@@ -15,6 +15,9 @@ bot.remove_command('help')
 hentai_channel_id = int(os.environ["HENTAI_CHANNEL_ID"])
 photos_path = os.environ["PHOTOS_PATH"]
 
+reddit_bot = reddit_scraper.RedditBot()
+reddit_bot.refresh_valid_submissions()
+
 def is_hentai_channel(ctx):
 	hentai_channel = bot.get_channel(hentai_channel_id)
 	return ctx.channel == hentai_channel
@@ -95,7 +98,7 @@ async def count_hentai(ctx, user : discord.User = None):
 @bot.command(name='gayincest', pass_context=True)
 @commands.check(is_hentai_channel)
 async def get_gay_incest(ctx):
-	await reddit_scraper.get_incest_story(ctx)
+	await reddit_bot.get_incest_story(ctx)
 
 @bot.command(name='logout')
 @commands.check(is_botadmin)
