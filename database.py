@@ -124,6 +124,10 @@ def sync_db():
 def delete_entry(image_id):
 	conn, c = connect_to_db()
 
+	c.execute("SELECT author FROM images WHERE staticID=%s", (image_id,))
+	row = c.fetchone()
+	c.execute("UPDATE users SET entrycount = entrycount - 1 WHERE author=%s", row)
+
 	c.execute("SELECT staticName FROM images WHERE staticID=%s", (image_id,))
 	row = c.fetchone()
 	filename = row[0]
