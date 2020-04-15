@@ -100,7 +100,7 @@ async def count_hentai(ctx, user : discord.User = None):
 async def display_leaderboard(ctx):
 	msg = await ctx.channel.send("Fetching data...")
 	leaderboard = database.get_leaderboard()
-	await msg.edit(content=leaderboard)
+	await msg.edit(embed=leaderboard)
 
 @bot.command(name='gayincest', pass_context=True)
 @commands.check(is_hentai_channel)

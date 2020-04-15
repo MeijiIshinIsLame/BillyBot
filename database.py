@@ -2,6 +2,7 @@ import os
 import psycopg2
 from datetime import datetime
 from pytz import timezone
+import discord
 
 import environment_variables
 import images
@@ -168,17 +169,17 @@ def count_hentai(user_id=None):
 	return total
 
 def get_leaderboard():
-	leaderboard_string = "**TOP 10 HENTAI PATRONS**\n"
+	embed = discord.Embed(title="**Top 10 Hentai Patrons**")
 	conn, c = connect_to_db()
 	c.execute("SELECT * FROM users ORDER BY entrycount DESC LIMIT 10")
 	rows = c.fetchall()
 
 	for entry in rows:
-		leaderboard_string += "> {}: {}\n".format(helpers.make_mention_object_by_id(entry[0]), entry[1])
+		embed.add_field(name=helpers.make_mention_object_by_id(entry[0]), value=str(entry[1]), inline=True)
 
 	conn.commit()
 	conn.close()
-	return leaderboard_string
+	return embed
 
 
 
