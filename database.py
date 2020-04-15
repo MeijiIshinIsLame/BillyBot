@@ -50,11 +50,9 @@ def add_image_to_db(image_filename, message):
 
 	c.execute("""CREATE TABLE IF NOT EXISTS users(author TEXT, entrycount INT)""")
 	params = (author,)
-	query = ("""INSERT INTO users (author, entrycount) VALUES (%s, 1) ON CONFLICT (author) DO NOTHING;""")
+	query = ("""INSERT INTO users (author, entrycount) VALUES (%s, 1) ON CONFLICT (author) DO UPDATE SET entrycount = entrycount + 1;""")
 	c.execute(query, params)
 
-	query = ("UPDATE users SET entrycount = entrycount + 1 WHERE author = %s")
-	c.execute(query, params)
 	conn.commit()
 	conn.close()
 
@@ -75,7 +73,7 @@ def create_authors_db():
 	for author in userlist:
 		entrycount = count_hentai(author)
 		params = (author, entrycount, author)
-		query = ("""INSERT INTO users (author, entrycount) VALUES (%s, %s) ON CONFLICT (author = %s) DO NOTHING;""")
+		query = ("""INSERT INTO users (author, entrycount) VALUES (%s, %s) ON CONFLICT ON CONSTRAINT author DO NOTHING;""")
 		c.execute(query, params)
 	
 	conn.commit()
