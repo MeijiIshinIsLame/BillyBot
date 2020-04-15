@@ -101,7 +101,7 @@ async def display_leaderboard(ctx):
 	embed = discord.Embed(title="**Top 10 Hentai Patrons**")
 	rows = database.get_leaderboard()
 	for entry in rows:
-		userobj = await bot.get_user_info(int(entry[0]))
+		userobj = await ctx.get_user_info(int(entry[0]))
 		username = userobj.name
 		embed.add_field(name=username, value="{} entries".format(entry[1]), inline=True)
 	await ctx.channel.send(embed=embed)
