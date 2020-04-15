@@ -174,7 +174,7 @@ def get_leaderboard():
 	rows = c.fetchall()
 
 	for entry in rows:
-		leaderboard_string += "`{}: {}`\n".format(helpers.make_mention_object_by_id(entry[0]), entry[1])
+		leaderboard_string += "> {}: {}\n".format(helpers.make_mention_object_by_id(entry[0]), entry[1])
 
 	conn.commit()
 	conn.close()
