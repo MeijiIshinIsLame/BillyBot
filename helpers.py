@@ -49,9 +49,12 @@ def get_help_msg():
 
 `$del (entry number): Deletes a hentai entry.`
 
+`$leaderboard: pulls up the hentai leaderboard.`
+
 `$counthentai (Optional mention): Counts hentai entries in total or per user.`
 
 `$gayincest: pulls up a random gay incest story.`
+
 
 > Q: How do I add hentai?
 Simply be in the hentai channel, and drop an image. Images under 400x400 are not supported, and neither are gifs."""

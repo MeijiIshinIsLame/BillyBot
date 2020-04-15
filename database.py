@@ -168,14 +168,13 @@ def count_hentai(user_id=None):
 	return total
 
 def get_leaderboard():
-	leaderboard_string = "**TOP 10 HENTAI PATRONS**\n```"
+	leaderboard_string = "**TOP 10 HENTAI PATRONS**\n"
 	conn, c = connect_to_db()
-	c.execute("SELECT * FROM users ORDER BY entrycount LIMIT 10")
+	c.execute("SELECT * FROM users ORDER BY entrycount DESC LIMIT 10")
 	rows = c.fetchall()
 
 	for entry in rows:
-		leaderboard_string += "{}: {}\n".format(helpers.make_mention_object_by_id(entry[0]), entry[1])
-	leaderboard_string += "```"
+		leaderboard_string += "`{}: {}`\n".format(helpers.make_mention_object_by_id(entry[0]), entry[1])
 
 	conn.commit()
 	conn.close()
