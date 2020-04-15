@@ -50,7 +50,8 @@ def add_image_to_db(image_filename, message):
 
 	c.execute("""CREATE TABLE IF NOT EXISTS users(author TEXT PRIMARY KEY, entrycount INTEGER)""")
 	params = (str(author),)
-	query = ("""INSERT INTO users (author, entrycount) VALUES (%s, 1) ON CONFLICT (author) DO NOTHING""")
+	#this incriments after. TODO: Update so that it works in one statement, and do it for del as well.
+	query = ("""INSERT INTO users (author, entrycount) VALUES (%s, 0) ON CONFLICT (author) DO NOTHING""")
 	c.execute(query, params)
 
 	c.execute("UPDATE users SET entrycount = entrycount + 1 WHERE author=%s", params)
@@ -61,7 +62,7 @@ def add_image_to_db(image_filename, message):
 def create_authors_db():
 	conn, c = connect_to_db()
 	c.execute("""CREATE TABLE IF NOT EXISTS users(author TEXT PRIMARY KEY, entrycount INTEGER)""")
-	
+
 	userlist = []
 
 	c.execute("SELECT author FROM images")
