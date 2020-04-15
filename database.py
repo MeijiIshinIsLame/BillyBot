@@ -127,6 +127,7 @@ def delete_entry(image_id):
 	c.execute("SELECT author FROM images WHERE staticID=%s", (image_id,))
 	row = c.fetchone()
 	c.execute("UPDATE users SET entrycount = entrycount - 1 WHERE author=%s", row)
+	c.execute("DELETE FROM users WHERE entrycount=0") #delete those mfers who do not contribute
 
 	c.execute("SELECT staticName FROM images WHERE staticID=%s", (image_id,))
 	row = c.fetchone()
