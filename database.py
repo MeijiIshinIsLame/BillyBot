@@ -60,6 +60,8 @@ def add_image_to_db(image_filename, message):
 
 def create_authors_db():
 	conn, c = connect_to_db()
+	c.execute("""CREATE TABLE IF NOT EXISTS users(author TEXT PRIMARY KEY, entrycount INTEGER)""")
+	
 	userlist = []
 
 	c.execute("SELECT author FROM images")
