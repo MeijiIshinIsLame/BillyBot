@@ -15,6 +15,7 @@ bot.remove_command('help')
 hentai_channel_id = int(os.environ["HENTAI_CHANNEL_ID"])
 photos_path = os.environ["PHOTOS_PATH"]
 
+#loading reddit submissions into memory cuz it was too slow before
 reddit_bot = reddit_scraper.RedditBot()
 reddit_bot.refresh_valid_submissions()
 
