@@ -49,8 +49,8 @@ def add_image_to_db(image_filename, message):
 	c.execute(query, params)
 
 	c.execute("""CREATE TABLE IF NOT EXISTS users(author TEXT, entrycount INT)""")
-	params = (author,)
-	query = ("""INSERT INTO users (author, entrycount) VALUES (%s, 1) ON CONFLICT (author) DO UPDATE SET entrycount = entrycount + 1;""")
+	params = (author, author)
+	query = ("""INSERT INTO users (author, entrycount) VALUES (%s, 1) ON CONFLICT (author) DO UPDATE SET entrycount = entrycount + 1 WHERE author = %s;""")
 	c.execute(query, params)
 
 	conn.commit()
@@ -171,4 +171,4 @@ def create_ssl_certs():
 def ssl_certs_exist():
 	return os.path.exists(ssl_cert_path) and os.path.exists(ssl_key_path) and os.path.exists(ssl_root_cert_path)
 
-create_authors_db()
+#create_authors_db()
