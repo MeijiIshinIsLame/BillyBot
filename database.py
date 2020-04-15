@@ -66,7 +66,7 @@ def create_authors_db():
 	rows = c.fetchall()
 
 	for row in rows:
-		row[0] = author
+		author = row[0]
 		if author not in userlist:
 			userlist.append(author)
 			
