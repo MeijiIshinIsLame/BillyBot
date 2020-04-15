@@ -49,31 +49,31 @@ def add_image_to_db(image_filename, message):
 	c.execute(query, params)
 
 	c.execute("""CREATE TABLE IF NOT EXISTS users(author TEXT, entrycount INT)""")
-	params = (str(author), str(author))
-	query = ("""INSERT INTO users (author, entrycount) VALUES (%s, 1) ON CONFLICT (author) WHERE author = %s DO UPDATE SET entrycount = excluded.entrycount + 1""")
+	params = (author,)
+	query = ("""INSERT INTO users (author, entrycount) VALUES (%s, 1) ON CONFLICT (author) DO NOTHING;""")
 	c.execute(query, params)
 
+	c.execute("UPDATE users SET entrycount = entrycount + 1 WHERE author=%s", params)
+	
 	conn.commit()
 	conn.close()
 
 def create_authors_db():
 	conn, c = connect_to_db()
-	c.execute("""CREATE TABLE IF NOT EXISTS users(author TEXT, entrycount INT)""")
-
 	userlist = []
 
 	c.execute("SELECT author FROM images")
 	rows = c.fetchall()
 
 	for row in rows:
-		author = row[0]
+		row[0] = author
 		if author not in userlist:
-			userlist.append(str(author))
+			userlist.append(author)
 			
 	for author in userlist:
 		entrycount = count_hentai(author)
 		params = (author, entrycount)
-		query = ("""INSERT INTO users (author, entrycount) VALUES (%s, %s)""")
+		query = ("""INSERT INTO users (author, entrycount) VALUES (%s, %s) ON CONFLICT (author) DO NOTHING;""")
 		c.execute(query, params)
 	
 	conn.commit()
@@ -171,4 +171,4 @@ def create_ssl_certs():
 def ssl_certs_exist():
 	return os.path.exists(ssl_cert_path) and os.path.exists(ssl_key_path) and os.path.exists(ssl_root_cert_path)
 
-#create_authors_db()
+create_authors_db()
