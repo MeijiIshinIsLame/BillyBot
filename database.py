@@ -49,8 +49,8 @@ def add_image_to_db(image_filename, message):
 	c.execute(query, params)
 
 	c.execute("""CREATE TABLE IF NOT EXISTS users(author TEXT, entrycount INT)""")
-	params = (author,)
-	query = ("""INSERT INTO users (author, entrycount) VALUES (%s, 1) ON CONFLICT (author) DO UPDATE SET entrycount = excluded.entrycount + 1""")
+	params = (author, author)
+	query = ("""INSERT INTO users (author, entrycount) VALUES (%s, 1) ON CONFLICT (author) WHERE author = %s DO UPDATE SET entrycount = excluded.entrycount + 1""")
 	c.execute(query, params)
 
 	conn.commit()
