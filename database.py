@@ -175,7 +175,7 @@ def get_leaderboard():
 	rows = c.fetchall()
 
 	for entry in rows:
-		embed.add_field(name=helpers.make_mention_object_by_id(entry[0]), value=str(entry[1]), inline=True)
+		embed.add_field(name=helpers.make_mention_object_by_id(entry[0]), value="{} entries".format(entry[1]), inline=True)
 
 	conn.commit()
 	conn.close()
