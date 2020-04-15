@@ -73,7 +73,7 @@ def create_authors_db():
 	for author in userlist:
 		entrycount = count_hentai(author)
 		params = (author, entrycount)
-		query = ("""INSERT INTO users (author, entrycount) VALUES (%s, %s) ON CONFLICT ON CONSTRAINT author DO NOTHING;""")
+		query = ("""INSERT INTO users (author, entrycount) VALUES (%s, %s)""")
 		c.execute(query, params)
 	
 	conn.commit()
