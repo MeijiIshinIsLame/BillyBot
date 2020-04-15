@@ -66,7 +66,7 @@ def create_authors_db():
 	rows = c.fetchall()
 
 	for row in rows:
-		row[0] = author
+		author = row[0]
 		if author not in userlist:
 			userlist.append(author)
 			
@@ -171,4 +171,4 @@ def create_ssl_certs():
 def ssl_certs_exist():
 	return os.path.exists(ssl_cert_path) and os.path.exists(ssl_key_path) and os.path.exists(ssl_root_cert_path)
 
-create_authors_db()
+#create_authors_db()
