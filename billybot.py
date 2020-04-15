@@ -96,6 +96,12 @@ async def count_hentai(ctx, user : discord.User = None):
 		await send_to_log_channel(e)
 		await ctx.channel.send(content="Could not fetch data.")
 
+@bot.command(name='leaderboard', pass_context=True)
+async def display_leaderboard(ctx):
+	msg = await ctx.channel.send("Fetching data...")
+	leaderboard = database.get_leaderboard()
+	await msg.edit(content=leaderboard)
+
 @bot.command(name='gayincest', pass_context=True)
 @commands.check(is_hentai_channel)
 async def get_gay_incest(ctx):

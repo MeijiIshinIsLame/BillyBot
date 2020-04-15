@@ -5,6 +5,7 @@ from pytz import timezone
 
 import environment_variables
 import images
+import helpers
 
 photos_path = os.environ["PHOTOS_PATH"]
 pic_ext = ['.jpg','.png','.jpeg']
@@ -165,6 +166,22 @@ def count_hentai(user_id=None):
 	conn.commit()
 	conn.close()
 	return total
+
+def get_leaderboard():
+	leaderboard_string = "**TOP 10 HENTAI PATRONS**\n```"
+	conn, c = connect_to_db()
+	c.execute("SELECT * FROM users ORDER BY entrycount LIMIT 10")
+	rows = c.fetchall()
+
+	for entry in rows:
+		leaderboard_string += "{}: {}\n".format(helpers.make_mention_object_by_id(entry[0]), entry[1])
+	leaderboard_string += "```"
+
+	conn.commit()
+	conn.close()
+	return leaderboard_string
+
+
 
 def create_ssl_certs():
 	with open(ssl_cert_path, 'w+') as f:
