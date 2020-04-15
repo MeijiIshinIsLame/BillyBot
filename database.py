@@ -76,7 +76,7 @@ def create_authors_db():
 	for author in userlist:
 		entrycount = count_hentai(author)
 		params = (author, entrycount)
-		query = ("""INSERT INTO users (author, entrycount) VALUES (%s, %s)""")
+		query = ("""INSERT INTO users (author, entrycount) VALUES (%s, %s) ON CONFLICT (author) DO NOTHING""")
 		c.execute(query, params)
 	
 	conn.commit()
@@ -178,4 +178,4 @@ def create_ssl_certs():
 def ssl_certs_exist():
 	return os.path.exists(ssl_cert_path) and os.path.exists(ssl_key_path) and os.path.exists(ssl_root_cert_path)
 
-create_authors_db()
+#create_authors_db()
