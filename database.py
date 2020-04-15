@@ -169,17 +169,17 @@ def count_hentai(user_id=None):
 	return total
 
 def get_leaderboard():
-	embed = discord.Embed(title="**Top 10 Hentai Patrons**")
+	#embed = discord.Embed(title="**Top 10 Hentai Patrons**")
 	conn, c = connect_to_db()
 	c.execute("SELECT * FROM users ORDER BY entrycount DESC LIMIT 10")
 	rows = c.fetchall()
 
-	for entry in rows:
-		embed.add_field(name=helpers.make_mention_object_by_id(entry[0]), value="{} entries".format(entry[1]), inline=True)
+	#for entry in rows:
+		#embed.add_field(name=helpers.make_mention_object_by_id(entry[0]), value="{} entries".format(entry[1]), inline=True)
 
 	conn.commit()
 	conn.close()
-	return embed
+	return rows
 
 
 

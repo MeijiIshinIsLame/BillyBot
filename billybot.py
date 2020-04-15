@@ -98,9 +98,14 @@ async def count_hentai(ctx, user : discord.User = None):
 
 @bot.command(name='leaderboard', pass_context=True)
 async def display_leaderboard(ctx):
+	embed = discord.Embed(title="**Top 10 Hentai Patrons**")
 	msg = await ctx.channel.send("Fetching data...")
-	leaderboard = database.get_leaderboard()
-	await msg.edit(embed=leaderboard)
+	rows = database.get_leaderboard()
+	for entry in rows:
+		userobj = await bot.get_user_info(int(entry[0]))
+		username = userobj.name
+		embed.add_field(name=username, value="{} entries".format(entry[1]), inline=True)
+	await msg.edit(embed=embed)
 
 @bot.command(name='gayincest', pass_context=True)
 @commands.check(is_hentai_channel)
