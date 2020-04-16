@@ -31,7 +31,7 @@ def is_botadmin(ctx):
 
 async def time_status():
 	while True:
-		last_updated = datetime.now(timezone('US/Hawaii')).strftime("%m-%d-%Y %H:%M %p")
+		last_updated = datetime.now(timezone('US/Hawaii')).strftime("%H:%M %p | %m-%d-%Y")
 		await asyncio.sleep(5)
 		await bot.change_presence(activity=discord.Game(name=last_updated))
 
