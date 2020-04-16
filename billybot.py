@@ -6,6 +6,8 @@ import database
 import images
 import environment_variables
 import reddit_module as reddit_scraper
+from datetime import datetime
+from pytz import timezone
 
 import discord
 from discord.ext import commands
