@@ -38,7 +38,13 @@ def get_random_save_message():
 					 "Idk what to say i'm rly disappointed in u son.",
 					 "Kill urself tbh.",
 					 "Nice one u faka.",
-					 "I'M COOOO0000OOMING!!!!!"]
+					 "I'M COOOO0000OOMING!!!!!",
+					 "Hey boys ;)",
+					 "PERFECT.",
+					 "I guess u were a little billy boy after all :)",
+					 "NO NOT AGAIN.",
+					 "How was the coom sesh?",
+					 "I'm so proud of my little billy boys :)"]
 	return random.choice(save_messages)
 
 def get_help_msg():
