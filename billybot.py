@@ -27,6 +27,12 @@ def is_botadmin(ctx):
 	zach_id = 138458225958715392
 	return ctx.author.id == zach_id
 
+async def time_status():
+	while True:
+		last_updated = datetime.now(timezone('US/Hawaii')).strftime("%m-%d-%Y %H:%M %p")
+		await asyncio.sleep(5)
+		await bot.change_presence(activity=discord.Game(name=last_updated)
+
 async def send_to_log_channel(error):
 	logs_channel = int(os.environ["logs_channel"])
 	channel = bot.get_channel(logs_channel)
@@ -38,6 +44,7 @@ async def on_ready():
 	print(bot.user.name)
 	print(bot.user.id)
 	print('------')
+	bot.loop.create_task(time_status())
 
 ####################    COMMANDS    ####################
 
