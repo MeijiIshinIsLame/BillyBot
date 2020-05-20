@@ -11,6 +11,8 @@ def time_status():
 			print(last_updated.strftime("%H:%M PM"))
 		else:
 			print(last_updated.strftime("%H:%M AM"))
+			print("hour is ")
+			print(last_updated.hour)
 		time.sleep(5)
 
 time_status()
