@@ -36,7 +36,7 @@ async def time_status():
 		last_updated = datetime.now(timezone('US/Hawaii'))
 
 		if int(last_updated.hour >= 12):
-			if last_updated.hour not 12:
+			if last_updated.hour != 12:
 				last_updated = last_updated - timedelta(hours=12)
 			timestring = last_updated.strftime("%H:%M PM")
 		else:
