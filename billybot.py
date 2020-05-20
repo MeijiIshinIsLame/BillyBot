@@ -7,6 +7,7 @@ import images
 import environment_variables
 import reddit_module as reddit_scraper
 from datetime import datetime
+from datetime import timedelta 
 from pytz import timezone
 
 import discord
