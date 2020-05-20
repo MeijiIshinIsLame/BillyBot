@@ -181,8 +181,6 @@ def get_leaderboard():
 	conn.close()
 	return rows
 
-
-
 def create_ssl_certs():
 	with open(ssl_cert_path, 'w+') as f:
 		f.write(os.environ["SSL_CERT"])
@@ -195,5 +193,3 @@ def create_ssl_certs():
 
 def ssl_certs_exist():
 	return os.path.exists(ssl_cert_path) and os.path.exists(ssl_key_path) and os.path.exists(ssl_root_cert_path)
-
-#create_authors_db()

@@ -31,9 +31,17 @@ def is_botadmin(ctx):
 
 async def time_status():
 	while True:
-		last_updated = datetime.now(timezone('US/Hawaii')).strftime("%H:%M %p | %m-%d-%Y")
+		timestring = ""
+		last_updated = datetime.now(timezone('US/Hawaii'))
+
+		if int(last_updated.strftime("%H")) > 12:
+			last_updated = last_updated - timedelta(hours=12)
+			timestring = last_updated.strftime("%H:%M PM")
+		else:
+			timestring = last_updated.strftime("%H:%M AM")
+
 		await asyncio.sleep(5)
-		await bot.change_presence(activity=discord.Game(name=last_updated))
+		await bot.change_presence(activity=discord.Game(name=timestring))
 
 async def send_to_log_channel(error):
 	logs_channel = int(os.environ["logs_channel"])
@@ -168,6 +176,3 @@ async def on_message(message):
 					await send_to_log_channel(e)
 
 bot.run(os.environ["BOT_TOKEN"])
-
-
-#todo: add regular username to database or just nope out and make flask app
