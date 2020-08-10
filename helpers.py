@@ -5,6 +5,11 @@ import os
 photos_path = os.environ["PHOTOS_PATH"]
 pic_ext = ['.jpg','.png','.jpeg']
 
+def create_file(filename):
+	with open(filename, 'w') as f: 
+		pass
+	print("created " + filename)
+
 def is_image(link):
 	for ext in pic_ext:
 		if link.endswith(ext):
@@ -44,7 +49,13 @@ def get_random_save_message():
 					 "I guess u were a little billy boy after all :)",
 					 "NO NOT AGAIN.",
 					 "How was the coom sesh?",
-					 "I'm so proud of my little billy boys :)"]
+					 "I'm so proud of my little billy boys :)"
+					 "One day I will be nice and plump w/ ur hentai <3",
+					 "Kill the jews.",
+					 "Nice one coomander in chief.",
+					 "Yikes idk about that one chief.",
+					 "Fk u incel",
+					 "Btw dude have u seen Joker?"]
 	return random.choice(save_messages)
 
 def get_help_msg():

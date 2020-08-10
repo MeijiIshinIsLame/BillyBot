@@ -1,5 +1,5 @@
 import os
-import psycopg2
+import sqlite3
 from datetime import datetime
 from pytz import timezone
 import discord
@@ -10,26 +10,42 @@ import helpers
 
 photos_path = os.environ["PHOTOS_PATH"]
 pic_ext = ['.jpg','.png','.jpeg']
-ssl_cert_path = "client-cert.pem"
-ssl_key_path = "client-key.pem"
-ssl_root_cert_path = "server-ca.pem"
+db_file = 'hentai.db'
+
+#checks if running for the first time.
+#used to build the db if it is
+#entries per line seperated by \t
+def initial_startup():
+	if os.path.isfile(db_file):
+		pass
+	else:
+		helpers.create_file(db_file)
+		raw_entries = []
+		with open("bbotdb.txt", 'r') as f:
+			raw_entries = f.readlines()
+		create_db_from_backup(raw_entries)
+
+def create_db_from_backup(raw_entries):
+	for line in raw_entries:
+		static_id, static_name, url, author, today_date, last_updated = line.split("\t")
+
+		#postgres fucked me over, needs to be converted to the proper format
+		#hence I do this shit
+		today_date = datetime.strptime(today_date, "%Y-%m-%d").strftime("%m-%d-%Y")
+
+		#and last_updated has a space and newline for some fking reason
+		last_updated = last_updated.strip("\n")
+		last_updated = last_updated[:-1] 
+		last_updated = datetime.strptime(last_updated, "%Y-%m-%d %I:%M:%S").strftime("%m-%d-%Y %I:%M:%S")
+
+		add_image_to_db_manually(static_id, static_name, url, author, today_date, last_updated)
+		print("added " + static_name)
 
 def connect_to_db():
-	if not ssl_certs_exist():
-		create_ssl_certs()
-
-	conn = psycopg2.connect(database=str(os.environ["DB_NAME"]),
-							user=str(os.environ["DB_USERNAME"]),
-							password=str(os.environ["DB_PASSWORD"]),
-							host=str(os.environ["DB_HOSTNAME"]),
-							port=str(os.environ["DB_PORT"]),
-							sslcert=ssl_cert_path,
-							sslmode=str(os.environ["SSL_MODE"]),
-							sslrootcert=ssl_root_cert_path,
-							sslkey=ssl_key_path)
+	conn = sqlite3.connect(database=db_file)
 	return conn, conn.cursor()
 
-def add_image_to_db(image_filename, message):	
+def add_image_to_db(image_filename, message):
 	conn, c = connect_to_db()
 
 	c.execute("""CREATE TABLE IF NOT EXISTS images(staticID TEXT, 
@@ -47,16 +63,42 @@ def add_image_to_db(image_filename, message):
 
 	params = (static_id, static_name, url, author, today_date, last_updated)
 	query = ("""INSERT INTO images (staticID, staticName, url, author, insertDate, insertTime)
-				VALUES (%s, %s, %s , %s, %s, %s)""")
+				VALUES (?, ?, ? , ?, ?, ?)""")
 	c.execute(query, params)
 
 	c.execute("""CREATE TABLE IF NOT EXISTS users(author TEXT PRIMARY KEY, entrycount INTEGER)""")
 	params = (str(author),)
 	#this incriments after. TODO: Update so that it works in one statement, and do it for del as well.
-	query = ("""INSERT INTO users (author, entrycount) VALUES (%s, 0) ON CONFLICT (author) DO NOTHING""")
+	query = ("""INSERT INTO users (author, entrycount) VALUES (?, 0) ON CONFLICT (author) DO NOTHING""")
 	c.execute(query, params)
 
-	c.execute("UPDATE users SET entrycount = entrycount + 1 WHERE author=%s", params)
+	c.execute("UPDATE users SET entrycount = entrycount + 1 WHERE author=?", params)
+	
+	conn.commit()
+	conn.close()
+
+def add_image_to_db_manually(static_id, static_name, url, author, today_date, last_updated):
+	conn, c = connect_to_db()
+
+	c.execute("""CREATE TABLE IF NOT EXISTS images(staticID TEXT, 
+													 staticName TEXT,
+													 url TEXT,
+													 author TEXT,
+													 insertDate DATE, 
+													 insertTime TIMESTAMP)""")
+
+	params = (static_id, static_name, url, author, today_date, last_updated)
+	query = ("""INSERT INTO images (staticID, staticName, url, author, insertDate, insertTime)
+				VALUES (?, ?, ? , ?, ?, ?)""")
+	c.execute(query, params)
+
+	c.execute("""CREATE TABLE IF NOT EXISTS users(author TEXT PRIMARY KEY, entrycount INTEGER)""")
+	params = (str(author),)
+	#this incriments after. TODO: Update so that it works in one statement, and do it for del as well.
+	query = ("""INSERT INTO users (author, entrycount) VALUES (?, 0) ON CONFLICT (author) DO NOTHING""")
+	c.execute(query, params)
+
+	c.execute("UPDATE users SET entrycount = entrycount + 1 WHERE author=?", params)
 	
 	conn.commit()
 	conn.close()
@@ -78,7 +120,7 @@ def create_authors_db():
 	for author in userlist:
 		entrycount = count_hentai(author)
 		params = (author, entrycount)
-		query = ("""INSERT INTO users (author, entrycount) VALUES (%s, %s)""")
+		query = ("""INSERT INTO users (author, entrycount) VALUES (?, ?)""")
 		c.execute(query, params)
 	
 	conn.commit()
@@ -105,7 +147,7 @@ def sync_db():
 				print(filename, "recovered")
 			except Exception as e:
 				print(e)
-				c.execute("DELETE FROM images WHERE staticName=%s", (filename,))
+				c.execute("DELETE FROM images WHERE staticName=?", (filename,))
 				images_deleted += 1
 				print(filename, "deleted")
 
@@ -114,7 +156,7 @@ def sync_db():
 	for filename in files:
 		for ext in pic_ext:
 			if filename.endswith(ext):
-				c.execute("SELECT staticName FROM images WHERE staticName=%s", (filename,))
+				c.execute("SELECT staticName FROM images WHERE staticName=?", (filename,))
 				if c.rowcount == 0:
 					images.delete_image(filename)
 					images_deleted += 1
@@ -126,17 +168,17 @@ def sync_db():
 def delete_entry(image_id):
 	conn, c = connect_to_db()
 
-	c.execute("SELECT author FROM images WHERE staticID=%s", (image_id,))
+	c.execute("SELECT author FROM images WHERE staticID=?", (image_id,))
 	row = c.fetchone()
-	c.execute("UPDATE users SET entrycount = entrycount - 1 WHERE author=%s", row)
+	c.execute("UPDATE users SET entrycount = entrycount - 1 WHERE author=?", row)
 	c.execute("DELETE FROM users WHERE entrycount=0") #delete those mfers who do not contribute
 
-	c.execute("SELECT staticName FROM images WHERE staticID=%s", (image_id,))
+	c.execute("SELECT staticName FROM images WHERE staticID=?", (image_id,))
 	row = c.fetchone()
 	filename = row[0]
 	images.delete_image(filename)
 
-	c.execute("DELETE FROM images WHERE staticID=%s", (image_id,))
+	c.execute("DELETE FROM images WHERE staticID=?", (image_id,))
 
 	conn.commit()
 	conn.close()
@@ -151,7 +193,7 @@ def fetch_random_entry():
 
 def fetch_specific_entry(image_id):
 	conn, c = connect_to_db()
-	c.execute("SELECT staticID, staticName, author, insertDate FROM images WHERE staticID=%s", (image_id,))
+	c.execute("SELECT staticID, staticName, author, insertDate FROM images WHERE staticID=?", (image_id,))
 	row = c.fetchone()
 	conn.commit()
 	conn.close()
@@ -160,7 +202,7 @@ def fetch_specific_entry(image_id):
 def count_hentai(user_id=None):
 	conn, c = connect_to_db()
 	if user_id:
-		c.execute("SELECT * FROM images WHERE author=%s", (user_id,))
+		c.execute("SELECT * FROM images WHERE author=?", (user_id,))
 	else:
 		c.execute("SELECT * FROM images")
 	total = c.rowcount
@@ -169,27 +211,9 @@ def count_hentai(user_id=None):
 	return total
 
 def get_leaderboard():
-	#embed = discord.Embed(title="**Top 10 Hentai Patrons**")
 	conn, c = connect_to_db()
 	c.execute("SELECT * FROM users ORDER BY entrycount DESC LIMIT 10")
 	rows = c.fetchall()
-
-	#for entry in rows:
-		#embed.add_field(name=helpers.make_mention_object_by_id(entry[0]), value="{} entries".format(entry[1]), inline=True)
-
 	conn.commit()
 	conn.close()
 	return rows
-
-def create_ssl_certs():
-	with open(ssl_cert_path, 'w+') as f:
-		f.write(os.environ["SSL_CERT"])
-
-	with open(ssl_key_path, 'w+') as f:
-		f.write(os.environ["SSL_KEY"])
-
-	with open(ssl_root_cert_path, 'w+') as f:
-		f.write(os.environ["SSL_ROOT_CERT"])
-
-def ssl_certs_exist():
-	return os.path.exists(ssl_cert_path) and os.path.exists(ssl_key_path) and os.path.exists(ssl_root_cert_path)

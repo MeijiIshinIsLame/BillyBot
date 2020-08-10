@@ -42,13 +42,9 @@ async def time_status():
 		else:
 			timestring = last_updated.strftime("%H:%M AM")
 
-		await asyncio.sleep(12)
-		try:
-			await bot.change_presence(activity=discord.Game(name=timestring))
-
-		except Exception as e:
-			print(e)
-			print("could not change time status lol")
+		await asyncio.sleep(5)
+		a
+wait bot.change_presence(activity=discord.Game(name=timestring))
 
 async def send_to_log_channel(error):
 	logs_channel = int(os.environ["logs_channel"])
@@ -57,9 +53,6 @@ async def send_to_log_channel(error):
 
 @bot.event
 async def on_ready():
-	#check if db is ready, create if not
-	database.initial_startup()
-	
 	print('Logged in as')
 	print(bot.user.name)
 	print(bot.user.id)
@@ -133,11 +126,11 @@ async def display_leaderboard(ctx):
 		embed.add_field(name=username, value="{} entries".format(entry[1]), inline=True)
 	await ctx.channel.send(embed=embed)
 
-#@bot.command(name='gayincest', pass_context=True)
+@bot.command(name='gayincest', pass_context=True)
 #@commands.check(is_hentai_channel)
-#@commands.check(is_botadmin)
-#async def get_gay_incest(ctx):
-#	await reddit_bot.get_incest_story(ctx)
+@commands.check(is_botadmin)
+async def get_gay_incest(ctx):
+	await reddit_bot.get_incest_story(ctx)
 
 @bot.command(name='logout')
 @commands.check(is_botadmin)
