@@ -10,7 +10,7 @@ import helpers
 
 photos_path = os.environ["PHOTOS_PATH"]
 pic_ext = ['.jpg','.png','.jpeg']
-db_file = 'hentai.db'
+db_file = '../database/hentai.db'
 
 #checks if running for the first time.
 #used to build the db if it is
@@ -69,7 +69,7 @@ def add_image_to_db(image_filename, message):
 	c.execute("""CREATE TABLE IF NOT EXISTS users(author TEXT PRIMARY KEY, entrycount INTEGER)""")
 	params = (str(author),)
 	#this incriments after. TODO: Update so that it works in one statement, and do it for del as well.
-	query = ("""INSERT INTO users (author, entrycount) VALUES (?, 0) ON CONFLICT (author) DO NOTHING""")
+	query = ("""INSERT OR IGNORE INTO users (author, entrycount) VALUES (?, 0)""")
 	c.execute(query, params)
 
 	c.execute("UPDATE users SET entrycount = entrycount + 1 WHERE author=?", params)
@@ -95,7 +95,7 @@ def add_image_to_db_manually(static_id, static_name, url, author, today_date, la
 	c.execute("""CREATE TABLE IF NOT EXISTS users(author TEXT PRIMARY KEY, entrycount INTEGER)""")
 	params = (str(author),)
 	#this incriments after. TODO: Update so that it works in one statement, and do it for del as well.
-	query = ("""INSERT INTO users (author, entrycount) VALUES (?, 0) ON CONFLICT (author) DO NOTHING""")
+	query = ("""INSERT OR IGNORE INTO users (author, entrycount) VALUES (?, 0)""")
 	c.execute(query, params)
 
 	c.execute("UPDATE users SET entrycount = entrycount + 1 WHERE author=?", params)

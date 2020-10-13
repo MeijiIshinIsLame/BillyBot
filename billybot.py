@@ -38,9 +38,9 @@ async def time_status():
 		if int(last_updated.hour >= 12):
 			if last_updated.hour != 12:
 				last_updated = last_updated - timedelta(hours=12)
-			timestring = last_updated.strftime("%H:%M PM")
+			timestring = last_updated.strftime("%H:%M PM HST")
 		else:
-			timestring = last_updated.strftime("%H:%M AM")
+			timestring = last_updated.strftime("%H:%M AM HST")
 
 		await asyncio.sleep(12)
 		try:

@@ -1,5 +1,4 @@
 discord
-psycopg2
 requests
 datetime
 pytz

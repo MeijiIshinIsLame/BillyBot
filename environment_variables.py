@@ -10,9 +10,9 @@ os.environ["reddit_secret"] = "VQYcv4U9XEoXVpDdMePdYT_Xwr8"
 os.environ["reddit_agent"] = "incestscraper"
 
 #testbot params
-os.environ["HENTAI_CHANNEL_ID"] = "692627802255523840"
-os.environ["BOT_TOKEN"] = "NjkyNjE3ODkyMzg2MTc3MDI0.XnxIrQ.VpwKadoHacPkuYpHvCoqwyUP-Rc"
-os.environ["logs_channel"] = "153820121914146816"
+#os.environ["HENTAI_CHANNEL_ID"] = "692627802255523840"
+#os.environ["BOT_TOKEN"] = "NjkyNjE3ODkyMzg2MTc3MDI0.XnxIrQ.VpwKadoHacPkuYpHvCoqwyUP-Rc"
+#os.environ["logs_channel"] = "153820121914146816"
 
 #db
 os.environ["DB_NAME"] = "billybotdb"
