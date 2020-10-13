@@ -199,6 +199,14 @@ def fetch_specific_entry(image_id):
 	conn.close()
 	return row
 
+def fetch_specific_entry_from_author(author_id):
+	conn, c = connect_to_db()
+	c.execute("SELECT staticID, staticName, author, insertDate FROM images ORDER BY RANDOM() WHERE author=?", (author_id,))
+	row = c.fetchone()
+	conn.commit()
+	conn.close()
+	return row
+
 def count_hentai(user_id=None):
 	conn, c = connect_to_db()
 	if user_id:
