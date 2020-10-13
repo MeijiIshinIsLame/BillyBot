@@ -87,14 +87,14 @@ async def delete_image(ctx, index: str):
 
 @bot.command(name='hentai', pass_context=True)
 @commands.check(is_hentai_channel)
-async def pull_hentai(ctx, index = None):
+async def pull_hentai(ctx, index : str = None):
 	if index:
 		row = None
 
 		try:
 
-			if type(index) == discord.User:
-				user_id = str(index.id)
+			if index.startswith("<@"):
+				user_id = helpers.replace_badchars(["<", "@", ">"], index)
 				row = database.fetch_specific_entry_from_author(user_id)
 			else:
 				row = database.fetch_specific_entry(index)

@@ -19,6 +19,11 @@ def is_image(link):
 def make_mention_object_by_id(author_id):
 	return "<@{}>".format(author_id)
 
+def delete_badchars(badchars, string):
+	for char in badchars:
+		string = string.replace(char, "")
+	return string
+
 def format_hentai_entry(row):
 	image_attachment = row[1]
 	entry_no = row[0]
