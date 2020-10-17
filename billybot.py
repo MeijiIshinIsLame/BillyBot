@@ -95,7 +95,7 @@ async def pull_hentai(ctx, index : str = None):
 
 			if index.startswith("<@"):
 				user_id = helpers.delete_badchars(["<", "@", ">"], index)
-				row = database.fetch_specific_entry_from_author(user_id)
+				row = database.fetch_specific_entry_from_author(str(user_id))
 			else:
 				row = database.fetch_specific_entry(index)
 
