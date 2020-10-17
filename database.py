@@ -201,7 +201,7 @@ def fetch_specific_entry(image_id):
 
 def fetch_specific_entry_from_author(author_id):
 	conn, c = connect_to_db()
-	c.execute("SELECT staticID, staticName, author, insertDate FROM images ORDER BY RANDOM() WHERE author=?", (author_id,))
+	c.execute("SELECT staticID, staticName, author, insertDate FROM images WHERE author=? ORDER BY RANDOM()", (author_id,))
 	row = c.fetchone()
 	conn.commit()
 	conn.close()
