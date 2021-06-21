@@ -215,7 +215,7 @@ def count_hentai(user_id=None):
 		c.execute("SELECT * FROM images WHERE author=?", (user_id,))
 	else:
 		c.execute("SELECT * FROM images")
-	total = c.rowcount
+	total = len(c.fetchall())
 	conn.commit()
 	conn.close()
 	return total

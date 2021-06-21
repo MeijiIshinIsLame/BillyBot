@@ -2,7 +2,7 @@ import os
 
 #main app
 os.environ["HENTAI_CHANNEL_ID"] = "691443514222837900"
-os.environ["BOT_TOKEN"] = "Njk0NzY5MDIzOTA4MzE1MTk3.XoQcEw.u-87rhV5oBd6xgN52MwuGBy35qM"
+os.environ["BOT_TOKEN"] = "put me in here pls"
 os.environ["PHOTOS_PATH"] = "../images"
 os.environ["logs_channel"] = "695558382622343279"
 os.environ["reddit_id"] = "kZBKQQ2yKMH5cg"
