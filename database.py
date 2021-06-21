@@ -205,6 +205,8 @@ def fetch_specific_entry_from_author(author_id):
 	row = c.fetchone()
 	conn.commit()
 	conn.close()
+	print(row)
+	print(author_id)
 	return row
 
 def count_hentai(user_id=None):
