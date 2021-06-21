@@ -58,6 +58,6 @@ Twisted==17.9.0
 typing-extensions==3.7.4.2
 ufw==0.36
 unattended-upgrades==0.1
-urllib3==1.22
+urllib3==1.26.5
 yarl==1.5.1
 zope.interface==4.3.2
