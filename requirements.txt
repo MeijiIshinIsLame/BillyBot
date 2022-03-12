@@ -34,7 +34,7 @@ multidict==4.7.6
 netifaces==0.10.4
 oauthlib==2.0.6
 PAM==0.4.2
-Pillow==7.2.0
+Pillow==9.0.1
 pyasn1==0.4.2
 pyasn1-modules==0.2.1
 pycrypto==2.6.1
